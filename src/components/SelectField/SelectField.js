@@ -13,7 +13,7 @@ const SelectField = ({ label, name, options, children, ...props }) => {
                 {children}
                 {options.map((option) => (
                     <option className={cx("option")} key={option.id} value={option.id}>
-                        {option.categoryName}
+                        {option.name}
                     </option>
                 ))}
             </Field>

@@ -14,7 +14,6 @@ const cx = classNames.bind(styles)
 
 const NavbarBottom = ({ className }) => {
     const { listCart } = useSelector((state) => state.cart)
-    const { listWishlist } = useSelector((state) => state.wishlist)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -32,16 +31,6 @@ const NavbarBottom = ({ className }) => {
                     <Link to="/" className={cx("navbar-home")}>
                         <HomeIcon className={cx("home-icon")} />
                     </Link>
-                </Grid>
-                <Grid>
-                    <Button to="/" className={cx("navbar-wishlist")}>
-                        <HeartIcon className={cx("wishlist-icon")} />
-                        {listWishlist && listWishlist.length > 0 ? (
-                            <span className={cx("quantity")}>{listWishlist.length}</span>
-                        ) : (
-                            ""
-                        )}
-                    </Button>
                 </Grid>
                 <Grid>
                     <Button

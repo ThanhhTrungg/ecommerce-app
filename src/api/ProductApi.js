@@ -1,20 +1,19 @@
 import Api from "./Api"
 
-const url = "/product"
+const url = "/products"
 
-export const createProduct = (productCode, selectOption, productName, productDes, imgUrl, price) => {
+export const createProduct = (title, price, description, categoryId, images) => {
     const body = {
-        code: productCode,
-        categoryName: selectOption,
-        name: productName,
-        description: productDes,
-        imgUrl: imgUrl,
-        price: price,
+        title,
+        price,
+        description,
+        categoryId,
+        images,
     }
 
-    return Api.post(`${url}/create`, body)
+    return Api.post(`${url}`, body)
 }
 
 export const listProduct = () => {
-    return Api.get(`${url}/list`)
+    return Api.get(url)
 }

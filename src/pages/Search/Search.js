@@ -20,11 +20,9 @@ const cx = classNames.bind(styles)
 
 const Search = () => {
     const navigate = useNavigate()
-    const { listCategories, category } = useSelector((state) => state.category)
+    const { listCategories, products } = useSelector((state) => state.category)
     const { sortPrice } = useSelector((state) => state.product)
     const dispatch = useDispatch()
-
-    
 
     return (
         <div className={cx("search-background")}>
@@ -43,14 +41,14 @@ const Search = () => {
                                 key={idx}
                                 className={cx("category-content")}
                                 onClick={async () => {
-                                    navigate(`/search?Category=${category.categoryName}`)
-                                    const response = await categoryApi.getCategory(category.id)
-                                    dispatch(categoryActions.getCategory(response))
+                                    navigate(`/search?Category=${category.name}`)
+                                    const response = await categoryApi.getAllProductsByCategory(category.id)
+                                    dispatch(categoryActions.getProductsByCategory(response))
                                 }}>
                                 <div className={cx("category-img")}>
-                                    <Image src={category.categoryImageUrl} alt={category.categoryName} />
+                                    <Image src={category.image} alt={category.name} />
                                 </div>
-                                <h3>{category.categoryName}</h3>
+                                <h3>{category.name}</h3>
                             </SwiperSlide>
                         ))}
                     <Button className={cx("btn-prev")} leftIcon={<ArrowHorizonIcon />} />
@@ -59,16 +57,16 @@ const Search = () => {
             </div>
 
             <div className={cx("product-content")}>
-                {category.product && category.product.length > 0 ? (
+                {products && products.length > 0 ? (
                     <div className={cx("sort-price")}>
                         <p className={cx("sort-text")}>
-                            Total <strong>{category.product.length}</strong> items Found
+                            Total <strong>{products.length}</strong> items Found
                         </p>
                         <select
                             className={cx("sort-select")}
                             value={sortPrice}
                             onChange={async (e) => {
-                                dispatch(productActions.sortPrice(category.product))
+                                dispatch(productActions.sortPrice(products))
                             }}>
                             <option value="" selected disabled hidden>
                                 Sort By Price
@@ -80,13 +78,17 @@ const Search = () => {
                 ) : (
                     ""
                 )}
-                {category.product && category.product.length > 0 ? (
-                    category.product.map((item, idx) => (
+                {products && products.length > 0 ? (
+                    products.map((product, idx) => (
                         <div key={idx}>
-                            <Image src={item.productImageUrl} alt={item.productName} className={"product-img"} />
-                            <p className={"list-skuProduct"}>{item.productCode}</p>
-                            <p className={"list-nameProduct"}>{item.productName}</p>
-                            <p className={"list-nameProduct"}>{item.productPrice}</p>
+                            <Image
+                                src={product.images[Math.floor(Math.random() * product.images.length - 1)]}
+                                alt={product.title}
+                                className={"product-img"}
+                            />
+                            {/* <p className={"list-skuProduct"}>{product.productCode}</p> */}
+                            <p className={"list-nameProduct"}>{product.title}</p>
+                            <p className={"list-nameProduct"}>{product.price}</p>
                         </div>
                     ))
                 ) : (

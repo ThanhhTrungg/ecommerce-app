@@ -19,8 +19,8 @@ const HomeContent = () => {
     useEffect(() => {
         dispatch(ecommerceService.getAllCategories())
         dispatch(ecommerceService.getAllProducts())
-        dispatch(ecommerceService.getListCart())
-        dispatch(ecommerceService.getListWishlist())
+        // dispatch(ecommerceService.getListCart())
+        // dispatch(ecommerceService.getListWishlist())
     }, [dispatch])
 
     return (

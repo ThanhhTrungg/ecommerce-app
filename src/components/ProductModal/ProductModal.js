@@ -18,6 +18,7 @@ import * as cartActions from "~/redux/cartSlice"
 const cx = classNames.bind(styles)
 
 const ProductModal = ({ modalDetail, activeModal }) => {
+    console.log("modalDetail", modalDetail)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { cartItemQuantity } = useSelector((state) => state.cart)
@@ -54,50 +55,50 @@ const ProductModal = ({ modalDetail, activeModal }) => {
         }
     }
 
-    const handleAddWishlist = async () => {
-        try {
-            const response = await wishlistApi.addItemWishlist(modalDetail.id)
-            toast.success(response.message, {
-                duration: 3000,
-                position: "bottom-right",
-            })
-            dispatch(ecommerceService.getListWishlist())
-        } catch (error) {
-            console.log(error)
-            if (error.status === 500) {
-                toast.error("error", {
-                    position: "bottom-right",
-                    duration: 3000,
-                })
-            } else {
-                toast.error("This product has been added before", {
-                    position: "bottom-right",
-                    duration: 3000,
-                })
-            }
-        }
-    }
+    // const handleAddWishlist = async () => {
+    //     try {
+    //         const response = await wishlistApi.addItemWishlist(modalDetail.id)
+    //         toast.success(response.message, {
+    //             duration: 3000,
+    //             position: "bottom-right",
+    //         })
+    //         dispatch(ecommerceService.getListWishlist())
+    //     } catch (error) {
+    //         console.log(error)
+    //         if (error.status === 500) {
+    //             toast.error("error", {
+    //                 position: "bottom-right",
+    //                 duration: 3000,
+    //             })
+    //         } else {
+    //             toast.error("This product has been added before", {
+    //                 position: "bottom-right",
+    //                 duration: 3000,
+    //             })
+    //         }
+    //     }
+    // }
 
-    const handleDeleteWishlist = async (itemId) => {
-        try {
-            const response = await wishlistApi.deleteItemWishlist(itemId)
-            toast.success(response.message, {
-                duration: 3000,
-                position: "bottom-right",
-            })
-            dispatch(ecommerceService.getListWishlist())
-        } catch (error) {
-            error.status === 500
-                ? toast.error("error", {
-                      position: "bottom-right",
-                      duration: 3000,
-                  })
-                : toast.error(error.data, {
-                      position: "bottom-right",
-                      duration: 3000,
-                  })
-        }
-    }
+    // const handleDeleteWishlist = async (itemId) => {
+    //     try {
+    //         const response = await wishlistApi.deleteItemWishlist(itemId)
+    //         toast.success(response.message, {
+    //             duration: 3000,
+    //             position: "bottom-right",
+    //         })
+    //         dispatch(ecommerceService.getListWishlist())
+    //     } catch (error) {
+    //         error.status === 500
+    //             ? toast.error("error", {
+    //                   position: "bottom-right",
+    //                   duration: 3000,
+    //               })
+    //             : toast.error(error.data, {
+    //                   position: "bottom-right",
+    //                   duration: 3000,
+    //               })
+    //     }
+    // }
 
     return (
         <div className={cx("productDetail-modal", { activeModal })} onClick={handleCloseModal}>
@@ -110,12 +111,16 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                 {modalDetail && (
                     <>
                         <Grid className={cx("detail-img")}>
-                            <Image className={cx("img-product")} src={modalDetail.imgUrl} alt={modalDetail.name} />
+                            <Image
+                                className={cx("img-product")}
+                                src={modalDetail.images[Math.floor(Math.random() * modalDetail.images.length - 1)]}
+                                alt={modalDetail.title}
+                            />
                         </Grid>
 
                         <Grid className={cx("detail-content")}>
                             <div className={cx("detail-header")}>
-                                <h1 className={cx("content-head")}>{modalDetail.name}</h1>
+                                <h1 className={cx("content-head")}>{modalDetail.title}</h1>
                                 <span className={cx("content-sku")}>SKU: {modalDetail.code}</span>
                             </div>
                             <p className={cx("content-des")}>{modalDetail.description}</p>

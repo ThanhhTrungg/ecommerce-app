@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import ModalComp from "~/components/ModalComp/ModalComp"
 
 import classNames from "classnames/bind"
@@ -15,7 +15,7 @@ import * as userActions from "~/redux/userSlice"
 import * as cartActions from "~/redux/cartSlice"
 import { Grid } from "@mui/material"
 import Button from "~/components/Button"
-import { CartIcon, HeartIcon, InfoIcon, UserIcon } from "~/components/Icons"
+import { CartIcon, InfoIcon, UserIcon } from "~/components/Icons"
 import NavbarBottom from "~/components/NavbarBottom"
 
 const cx = classNames.bind(styles)
@@ -24,7 +24,6 @@ const Header = () => {
     const scrollY = useScrollY()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { listWishlist } = useSelector((state) => state.wishlist)
     const { listCart } = useSelector((state) => state.cart)
 
     return (
@@ -84,17 +83,7 @@ const Header = () => {
                     <button className={cx("action-btn")}>
                         <InfoIcon className={cx("act-info")} />
                     </button>
-                    <Link
-                        to="/wishlist"
-                        className={cx("action-btn")}
-                        onClick={() => dispatch(ecommerceService.getListWishlist())}>
-                        <HeartIcon className={cx("act-wishlist")} />
-                        {listWishlist && listWishlist.length > 0 ? (
-                            <span className={cx("quantity")}>{listWishlist.length}</span>
-                        ) : (
-                            ""
-                        )}
-                    </Link>
+
                     <Button
                         className={cx("action-btn")}
                         onClick={() => {

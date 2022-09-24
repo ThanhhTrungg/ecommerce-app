@@ -17,6 +17,7 @@ const cx = classNames.bind(styles)
 const UserDashboard = () => {
     const navigate = useNavigate()
     const [allCategories, setAllCategories] = useState([])
+    console.log("allCategories", allCategories)
     const [tabIndex, setTabIndex] = useState(1)
     const avatarInputFile = useRef()
     const [file, setFile] = useState()
@@ -46,7 +47,7 @@ const UserDashboard = () => {
 
     const handleAddCategory = async (values) => {
         try {
-            const result = await CategoryApi.createCategory(values.categoryDes, values.categoryName, values.imgUrl)
+            const result = await CategoryApi.createCategory(values.categoryName, values.imgUrl)
             console.log(result)
             // message success
             if (result) toast.success("A new category created", { duration: 3000, position: "bottom-right" })
@@ -59,12 +60,11 @@ const UserDashboard = () => {
     const handleAddProduct = async (values) => {
         try {
             const result = await ProductApi.createProduct(
-                values.productCode,
-                values.selectOption,
                 values.productName,
+                values.productPrice,
                 values.productDes,
-                values.imgUrl,
-                values.price
+                values.selectOption,
+                values.imgUrl
             )
             console.log(result)
             // message success
@@ -306,7 +306,7 @@ const UserDashboard = () => {
                         </div>
                         <div className={cx("card-body")}>
                             <Formik
-                                initialValues={{ categoryDes: "", categoryName: "", imgUrl: "" }}
+                                initialValues={{ categoryName: "", imgUrl: "" }}
                                 onSubmit={handleAddCategory}
                                 validateOnChange={false}
                                 validateOnBlur={false}>
@@ -318,12 +318,12 @@ const UserDashboard = () => {
                                             type="text"
                                             className={cx("category-input")}
                                         />
-                                        <InputField
+                                        {/* <InputField
                                             label="Description"
                                             name="categoryDes"
                                             type="text"
                                             className={cx("category-input")}
-                                        />
+                                        /> */}
                                         <InputField
                                             label="ImageURL"
                                             name="imgUrl"
@@ -346,12 +346,11 @@ const UserDashboard = () => {
                         <div className={cx("card-body")}>
                             <Formik
                                 initialValues={{
-                                    productCode: "",
-                                    selectOption: "",
                                     productName: "",
+                                    productPrice: "",
                                     productDes: "",
+                                    selectOption: "",
                                     imgUrl: "",
-                                    price: "",
                                 }}
                                 validateOnChange={false}
                                 validateOnBlur={false}
@@ -363,12 +362,14 @@ const UserDashboard = () => {
                                             label="Category"
                                             name="selectOption"
                                             options={allCategories}>
-                                            <option>-- Select Category --</option>
+                                            <option selected disabled>
+                                                -- Select Category --
+                                            </option>
                                         </SelectField>
 
                                         <InputField
-                                            label="Product Code"
-                                            name="productCode"
+                                            label="Product Price"
+                                            name="productPrice"
                                             type="text"
                                             className={cx("product-input")}
                                         />
@@ -391,12 +392,12 @@ const UserDashboard = () => {
                                             type="text"
                                             className={cx("product-input")}
                                         />
-                                        <InputField
+                                        {/* <InputField
                                             label="Price"
                                             name="price"
                                             type="text"
                                             className={cx("product-input")}
-                                        />
+                                        /> */}
                                         <button type="submit" className={cx("product-submit")}>
                                             Add product
                                         </button>
