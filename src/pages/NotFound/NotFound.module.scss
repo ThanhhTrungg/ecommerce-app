@@ -1,0 +1,82 @@
+.notfound-bg {
+    background-color: #ecfdf5;
+    height: 100vh;
+    padding: 80px 24px;
+
+    @media screen and (max-width: 1024px) {
+        padding: 40px 24px;
+    }
+}
+
+.notfound-desc {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    
+}
+
+.notfound-img {
+    width: 650px;
+    height: 450px;
+    background: url("../../assets/images/notfound.svg") center center / contain no-repeat;
+    @media screen and (max-width: 690px) {
+        max-width: 100% ;
+    }
+}
+
+.notfound-form {
+    @media screen and (max-width: 690px) {
+        max-width: 100%;
+    }
+}
+
+.error-title {
+    font-size: 3.6rem;
+    font-weight: 700;
+    height: 40px;
+    margin-bottom: 16px;
+
+    
+}
+
+.error-text {
+    width: 650px;
+    height: 24px;
+    color: #4b5563;
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    @media screen and (max-width: 690px) {
+        max-width: 100% ;
+    }
+}
+
+.backtohome-btn {
+    font-size: 1.6rem;
+    height: 48px;
+    padding: 12px 32px;
+    background: var(--primary-color);
+    color: var(--white-color);
+
+    &:hover {
+        background: var(--hover-primary-color);
+    }
+
+    @media screen and (max-width: 1024px) {
+        padding: 12px 24px;
+    }
+    @media screen and (max-width: 768px) {
+        padding: 12px 20px;
+    }
+    @media screen and (max-width: 640px) {
+        width: 100%;
+    }
+}
+
+.error-title, .error-text {
+    @media screen and (max-width: 1024px) {
+        font-size: 1.6rem;
+        height: 24px;
+    }
+}

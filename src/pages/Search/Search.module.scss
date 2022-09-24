@@ -1,0 +1,123 @@
+.search-background {
+    padding: 48px 40px;
+}
+
+.listCategories-content {
+    margin: 40px 0;
+    text-align: center;
+
+
+    .btn-prev,.btn-next {
+        font-family: "Open Sans", sans-serif;
+        width: 30px;
+        height: 30px;
+        background: var(--primary-color);
+        color: var(--white-color);
+        border-radius: 3px;
+        position: absolute;
+        top: 30%;
+        z-index: 1;
+
+        &:hover {
+            background: var(--hover-primary-color);
+        }
+        
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            text-align: center;
+        }
+    }
+    .btn-prev {
+        left: 0;
+        transform: rotate(90deg) !important;
+    }
+    .btn-next {
+        right: 0;
+        transform: rotate(-90deg) !important;
+    }
+
+    .category-content {
+        background: var(--white-color);
+        padding: 12px;
+        cursor: pointer;
+        border-radius: 8px;
+        
+        &:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .category-img {
+            position: relative;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 24px;
+            height: 24px;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-top: 8px;    
+            font-weight: 500;  
+            
+        }
+    }
+}
+
+.product-content {
+    
+
+    .sort-price {
+        background: #ffedd5;
+        border-radius: 4px;
+        border: 1px solid #f3f4f6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 2.4rem;
+        margin: 12px 0;
+        padding: 12px;
+    }
+    .sort-text {
+        font-size: 1.4rem;
+        line-height: 2rem;
+    }
+    .sort-select {
+        border-radius: 4px;
+        font-size: 1.4rem;
+        font-weight: 500;
+        height: 20px;
+        padding: 0 40px 0 12px;
+    }
+}
+
+.empty-content {
+    margin: 24px 0;
+    padding: 20px;
+    text-align: center;
+
+    img {
+        max-width: 400px;
+        min-height: 380px;
+    }
+
+    p {
+        color: var(--text-color);
+        font-size: 2.4rem;
+        font-weight: 500;
+        height: 3.2rem;
+        margin-top: 8px;
+
+    }
+}

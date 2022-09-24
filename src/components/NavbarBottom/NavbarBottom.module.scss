@@ -1,0 +1,56 @@
+.navbar-bottom {
+    font-family: "Open Sans", sans-serif;
+    position: fixed;
+    bottom: 0;
+    height: 64px;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--primary-color);
+
+    .bottom-box {
+        all: inherit;
+    }
+}
+
+.navbar-menubar,
+.navbar-wishlist, 
+.navbar-cart, 
+.navbar-home,
+.navbar-user {
+    height: 100%;
+    padding: 10px;
+    margin: 0 -10px;
+}
+
+
+.navbar-wishlist, .navbar-cart {
+    position: relative;
+    .quantity {
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        background-color: #ef4444;
+        color: var(--white-color);
+        border-radius: 50%;
+        top: 0px;
+        right: 0px;
+    }
+}
+
+
+.menubar-icon,
+.home-icon,
+.wishlist-icon,
+.cart-icon,
+.user-icon {
+    color: var(--white-color);
+    width: 2.4rem;
+    height: 2.4rem;
+    position: relative;
+    top: 1px;
+}

@@ -1,0 +1,136 @@
+footer {
+    background: var(--white-color);
+}
+
+.footer-content {
+    padding: 0 40px;
+    font-family: "Open Sans", sans-serif;
+
+    @media (max-width: 640px) {
+        padding: 0px 12px;
+    }
+}
+
+.footer-top {
+    position: relative;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    padding: 24px 40px;
+}   
+
+.top-item {
+    padding: 4px 0px;
+    border-right: 1px solid var(--border-color);
+    
+}
+
+.top-icon {
+    font-size: 1.6rem !important;
+    background-color: transparent;
+    color: var(--primary-color);
+    position: relative;
+    top: 2px;
+    margin-right: 12px;
+}
+
+.footer-middle {
+    padding: 60px 0px;
+}
+
+.middle-item {
+    height: 170px;
+
+    .middle-link {
+        display: inline-block;
+        max-height: 40px;
+        margin-bottom: 12px;
+        text-align: left;
+    }
+
+    .middle-img {
+        width: 110px;
+        max-height: 40px;
+    }
+
+    h3 {
+        line-height: 2.8rem;
+        font-weight: 400;
+        font-size: 1.6rem;
+        margin-bottom: 24px;
+    }
+    span {
+        display: block;
+        line-height: 2rem;
+        font-size: 1.4rem;
+        color: var(--text-color);
+        margin-top: 12px;
+        cursor: pointer;
+        &:hover {
+            color: var(--primary-color);
+        }
+
+        &:nth-of-type(1) {
+            margin-top: 0;
+        }
+    }
+}
+
+.footer-bottom {
+    background: var(--background-color);
+    padding: 32px 40px;
+    border-radius: 14px;
+}
+
+.bottom-icon {
+    cursor: pointer;
+}
+
+.bottom-icon + .bottom-icon {
+    margin-right: 12px;
+    &:nth-of-type(2) {
+        margin-left: 12px;
+    }
+}
+
+.bottom-item {
+    text-align: center;
+    span {
+        height: 30px;
+        display: block;
+        margin-bottom: 10px;
+    }
+    h5 {
+        color: var(--primary-color);
+        font-size: 2.4rem;
+        font-weight: 700;
+        line-height: 28px;
+    }
+}
+
+.bottom-img {
+    min-width: 274px;
+    max-height: 85px;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.copyright {
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 16px 40px;
+
+    @media (max-width: 1024px) {
+        margin-bottom: 64px;
+    }
+    span {
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+}

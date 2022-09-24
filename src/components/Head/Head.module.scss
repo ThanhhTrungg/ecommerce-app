@@ -1,0 +1,77 @@
+.head{
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--head-height);
+    padding: 0 40px;
+    background: #f3f4f6;
+}
+
+.contact-us {
+    height: 100%;
+    font-weight: 500;
+}
+
+.contact-icon{
+    margin-right: 8px;
+}
+
+.contact-content{
+    color: #374151;
+    height: 16px;
+}
+
+.contact-tel, .contact-email{
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.head-actions{
+    justify-content: flex-end;
+    height: 100%;
+    color: #374151;
+    font-weight: 500;
+}
+
+.head-account{
+    display: block;
+    position: relative;
+    margin-right: 18px;
+    font-size: 1.2rem;
+    height: 16px;
+    
+    &:hover {
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-left: 1px solid #374151;
+        height: 12px;
+        right: -9px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+}
+
+.head-login{
+    font-size: 1.2rem;
+    height: 16px;
+
+    &:hover {
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+}
+
+.login-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    position: relative;
+    top: 2px;
+}

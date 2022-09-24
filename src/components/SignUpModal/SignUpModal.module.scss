@@ -1,0 +1,173 @@
+.modal {
+    font-family: "Inter", sans-serif;
+}
+
+.login-title {
+
+    h1 {
+        font-size: 3rem;
+        height: 36px;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1.6rem;
+        margin: 8px 0 24px;
+         color: #6b7280;
+    }
+}
+
+.login-background {
+    color: #6b7280;
+}
+
+.form-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: #dfe0e2;
+    position: relative;
+    top: 2px;
+}
+
+.form-username, .form-email, .form-password {
+    width: 100%;
+    height: 48px;
+    padding: 8px 12px 8px 40px;
+    border: 1px solid #edeef1;
+    font-size: 1.4rem;
+
+
+    &:focus {
+        border: 1px solid var(--primary-color);
+    }
+}
+
+
+.rememberORForgot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    margin-bottom: 20px;
+}
+.rememberMe {
+    color: var(--black-color);
+    font-size: 1.4rem;
+    height: 100%;
+    
+    input {
+        margin-right: 4px;
+        position: relative;
+        top: 1px;
+    }
+
+    label {
+        display: inline-block;
+        height: 100%;
+    }
+}
+.forgotPass {
+    color: var(--black-color);
+    text-decoration: underline;
+    font-size: 1.4rem;
+    height: 100%;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+.login-btn {
+    width: 100%;
+    height: 48px;
+    font-size: 1.6rem;
+    color: var(--white-color);
+    background: var(--primary-color);
+    cursor: pointer;
+
+    &:hover {
+        background: var(--hover-primary-color);
+    }
+}
+.different-login {
+    margin: 20px 0;
+}
+
+.different-list {
+    display: flex;
+    align-items: center;
+    height: 48px;
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+        height: 116px;
+
+        .btn-fb,.btn-gg {
+            height: 100%;
+        }
+    }
+}
+
+.btn-fb {
+    margin-right: 10px;
+    &:hover {
+        background: #2563eb;
+    }
+}
+
+.btn-gg {
+    &:hover {
+        background: #ef4444;
+    }
+}
+
+.btn-fb, .btn-gg {
+    flex: 1;
+    background: #f3f4f6;
+    height: 100%;
+    cursor: pointer;
+
+    @media screen and (max-width: 900px) {
+        height: 100%;
+        margin-bottom: 6px;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    &:hover span, 
+    &:hover .btn-login-icon,
+    &:hover .btn-login-gg {
+        color: var(--white-color);
+    }
+
+    span {
+        color: #4b5563;
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-left: 10px;
+    }
+}
+
+.btn-login-icon,
+.btn-login-gg {
+    color: #4b5563;
+    position: relative;
+    top: 2px;
+}
+
+.form-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 1.4rem;
+    height: 20px;
+}
+.signup-navigate {
+    margin-left: 8px;
+    color: #1f2937;
+    font-weight: 700;
+
+    &:hover {
+        color: var(--primary-color);
+    }
+}

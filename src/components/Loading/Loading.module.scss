@@ -1,0 +1,40 @@
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+}
+
+.loading-item {
+    background-color: rgb(52, 211, 153);
+    width: 3px;
+    height: 30px;
+    margin: 2px;
+    border-radius: 3px;
+    animation: changeHeight 1s cubic-bezier(0.2, 0.68, 0.18, 1.08) infinite ;
+}
+
+.loading-item:nth-of-type(1) {
+    animation-delay: 0.1s;
+}
+.loading-item:nth-of-type(2) {
+    animation-delay: 0.2s;
+}
+.loading-item:nth-of-type(3) {
+    animation-delay: 0.3s;
+}
+.loading-item:nth-of-type(4) {
+    animation-delay: 0.4s;
+}
+.loading-item:nth-of-type(5) {
+    animation-delay: 0.5s;
+}
+
+@keyframes changeHeight {
+    50% {
+        transform: scaleY(0.4);
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
