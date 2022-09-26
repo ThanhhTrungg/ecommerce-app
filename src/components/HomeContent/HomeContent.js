@@ -1,61 +1,86 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import ProductModal from "../ProductModal"
-import ecommerceService from "~/services/ecommerceService"
-import ListItem from "~/components/ListItem"
 
 import classNames from "classnames/bind"
 import styles from "./HomeContent.module.scss"
 import { BagIcon } from "../Icons"
 import priceFormat from "~/utils/priceFormat"
 import * as cartActions from "~/redux/cartSlice"
+import Products from "~/components/Products"
+import Categories from "../Categories"
+import * as categoryApi from "~/api/CategoryApi"
+import * as productApi from "~/api/ProductApi"
+import * as categoryActions from "~/redux/categorySlice"
+import * as productActions from "~/redux/productSlice"
+
 const cx = classNames.bind(styles)
 
 const HomeContent = () => {
     const dispatch = useDispatch()
     const { listCategories } = useSelector((state) => state.category)
-    const { listProducts, productDetail } = useSelector((state) => state.product)
+    const { listProducts } = useSelector((state) => state.product)
     const { listCart } = useSelector((state) => state.cart)
+
     useEffect(() => {
-        dispatch(ecommerceService.getAllCategories())
-        dispatch(ecommerceService.getAllProducts())
-        // dispatch(ecommerceService.getListCart())
-        // dispatch(ecommerceService.getListWishlist())
+        try {
+            const fetchApi = async () => {
+                dispatch(productActions.setLoading(true))
+                const response = await categoryApi.listCategory()
+                dispatch(categoryActions.getAllCategories(response))
+                dispatch(productActions.setLoading(false))
+            }
+            fetchApi()
+        } catch (error) {
+            console.log("Get all categories API is error: ", error.data)
+        }
+        try {
+            const fetchApi = async () => {
+                dispatch(productActions.setLoading(true))
+                const response = await productApi.listProduct()
+                dispatch(productActions.getAllProducts(response))
+                dispatch(productActions.setLoading(false))
+            }
+            fetchApi()
+        } catch (error) {
+            console.log("Get all products API is error: ", error.data)
+        }
     }, [dispatch])
+
+    const getTotal = () => {
+        let totalQuantity = 0
+        let totalPrice = 0
+        listCart.forEach((itemCart) => {
+            totalQuantity += itemCart.quantity
+            totalPrice += itemCart.price * itemCart.quantity
+        })
+        return { totalPrice, totalQuantity }
+    }
 
     return (
         <div className={cx("home-content")}>
-            <ListItem
-                items={listCategories}
+            <Categories
+                categories={listCategories}
                 title="Featured Categories"
                 text="Choose your necessary products from this feature categories."
             />
-
-            <ListItem
-                items={listProducts}
+            <Products
+                products={listProducts}
                 title="Popular Products for Daily Shopping"
                 text="See all our popular products in this week. You can choose your daily needs products from this list and get some special offer with free shipping."
-                isProduct
             />
-            <ProductModal modalDetail={productDetail} activeModal={productDetail} />
 
             <div
                 className={cx("cart-fixed")}
                 onClick={() => {
-                    dispatch(ecommerceService.getListCart())
                     dispatch(cartActions.handleOpenDrawer(true))
                 }}>
                 <div className={cx("cart-info")}>
                     <BagIcon className={cx("bag-icon")} />
                     <span className={cx("quantity")}>
-                        {listCart.cartItems && listCart.cartItems.length > 0
-                            ? `${listCart.cartItems.length} items`
-                            : "0 item"}
+                        {listCart && listCart.length > 0 ? `${listCart.length} items` : "0 item"}
                     </span>
                 </div>
-                <div className={cx("totalPrice")}>
-                    {listCart.totalCost ? priceFormat(listCart.totalCost) : priceFormat(0)}
-                </div>
+                <div className={cx("totalPrice")}>{priceFormat(getTotal().totalPrice)}</div>
             </div>
         </div>
     )

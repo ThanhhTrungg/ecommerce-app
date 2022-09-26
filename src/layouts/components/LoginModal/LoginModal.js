@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import * as userActions from "~/redux/userSlice"
 import InputField from "~/components/InputField"
-import UserApi from "~/api/UserApi"
 import toast from "react-hot-toast"
 import storage from "~/Storage/Storage"
-import { EnvelopeIcon, FBIcon, GGIcon, LockIcon } from "../Icons"
-import { signInWithGoogle } from "~/firebase"
+import { EnvelopeIcon, FBIcon, GGIcon, LockIcon } from "~/components/Icons"
+import { logInWithEmailAndPassword, signInWithGoogle } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./LoginModal.module.scss"
@@ -29,7 +28,7 @@ const LoginModal = () => {
     }
 
     const validationSchema = Yup.object({
-        // email: Yup.string().email("Must be a valid email").required("Please Enter your Email"),
+        email: Yup.string().email("Must be a valid email").required("Please Enter your Email"),
         password: Yup.string()
             .min(6, "Must be between 6 and 50 characters")
             .max(50, "Must be between 6 and 50 characters")
@@ -37,52 +36,54 @@ const LoginModal = () => {
     })
 
     const onSubmit = async (values) => {
-        try {
-            // call api
-            const result = await UserApi.login(values.email, values.password)
-            console.log(result)
+        logInWithEmailAndPassword(values.email, values.password)
 
-            // check user active
-            if (result.token === null || result.token === undefined) {
-            } else {
-                // set remember me
-                storage.setRememberMe(checkedRememberMe)
+        // try {
+        //     // call api
+        //     const result = await UserApi.login(values.email, values.password)
+        //     console.log(result)
 
-                // save token & UserInfo to storage
-                storage.setToken(result.token)
-                storage.setUserInfo(result.userName, result.email, result.role, result.status)
+        //     // check user active
+        //     if (result.token === null || result.token === undefined) {
+        //     } else {
+        //         // set remember me
+        //         storage.setRememberMe(checkedRememberMe)
 
-                // save token & UserInfo to redux
-                // props.userSlice.setTokenInfo(result.token)
-                // props.userSlice.setUserLoginInfo(
-                //     result.userName,
-                //     result.email,
-                //     result.firstName,
-                //     result.lastName,
-                //     result.role,
-                //     result.status
-                // )
+        //         // save token & UserInfo to storage
+        //         storage.setToken(result.token)
+        //         storage.setUserInfo(result.userName, result.email, result.role, result.status)
 
-                dispatch(userActions.setOpenLoginModal(false))
-                toast.success("Login Success!", {
-                    duration: 3000,
-                    position: "top-center",
-                })
-            }
-        } catch (error) {
-            if (error.status === 400) {
-                // show error notification
-                toast.error(error.data, {
-                    duration: 3000,
-                    position: "bottom-right",
-                })
-            } else if (error.status === 404) {
-                // redirect page error server
-                navigate("/notfound")
-            }
-        }
+        //         // save token & UserInfo to redux
+        //         // props.userSlice.setTokenInfo(result.token)
+        //         // props.userSlice.setUserLoginInfo(
+        //         //     result.userName,
+        //         //     result.email,
+        //         //     result.firstName,
+        //         //     result.lastName,
+        //         //     result.role,
+        //         //     result.status
+        //         // )
+
+        //         dispatch(userActions.setOpenLoginModal(false))
+        //         toast.success("Login Success!", {
+        //             duration: 3000,
+        //             position: "top-center",
+        //         })
+        //     }
+        // } catch (error) {
+        //     if (error.status === 400) {
+        //         // show error notification
+        //         toast.error(error.data, {
+        //             duration: 3000,
+        //             position: "bottom-right",
+        //         })
+        //     } else if (error.status === 404) {
+        //         // redirect page error server
+        //         navigate("/notfound")
+        //     }
+        // }
     }
-
+  
     return (
         <>
             <div className={cx("login-title")}>

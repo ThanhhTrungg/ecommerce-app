@@ -11,7 +11,8 @@ import toast from "react-hot-toast"
 
 import classNames from "classnames/bind"
 import styles from "./SignUpModal.module.scss"
-import { EnvelopeIcon, FBIcon, GGIcon, LockIcon, UserIcon } from "../Icons"
+import { EnvelopeIcon, FBIcon, GGIcon, LockIcon, UserIcon } from "../../../components/Icons"
+import { registerWithEmailAndPassword } from "~/firebase"
 
 const cx = classNames.bind(styles)
 
@@ -26,49 +27,63 @@ const SignUpModal = () => {
         confirmPassword: "",
     }
 
-    const validationSchema = Yup.object({
-        username: Yup.string()
-            .min(6, "Must be between 6 and 50 characters")
-            .max(50, "Must be between 6 and 50 characters")
-            .test("checkExistsUsername", "This username is already registered.", async (username) => {
-                // call api
-                const isExists = await UserApi.existsUserByUserName(username)
-                return !isExists
-            })
-            .required("Required"),
-        email: Yup.string()
-            .email("Email is invalid")
-            .required("Required")
-            .test("checkExistsEmail", "This email is already registered.", async (email) => {
-                // call api
-                const isExists = await UserApi.existsUserByEmail(email)
-                return !isExists
-            }),
-        password: Yup.string()
-            .min(6, "Must be between 6 and 50 characters")
-            .max(50, "Must be between 6 and 50 characters")
-            .required("Required"),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), null], "Password must match")
-            .required("Required"),
-    })
+    // const validationSchema = Yup.object({
+    //     username: Yup.string()
+    //         .min(6, "Must be between 6 and 50 characters")
+    //         .max(50, "Must be between 6 and 50 characters")
+    //         .test("checkExistsUsername", "This username is already registered.", async (username) => {
+    //             // call api
+    //             const isExists = await UserApi.existsUserByUserName(username)
+    //             return !isExists
+    //         })
+    //         .required("Required"),
+    //     email: Yup.string()
+    //         .email("Email is invalid")
+    //         .required("Required")
+    //         .test("checkExistsEmail", "This email is already registered.", async (email) => {
+    //             // call api
+    //             const isExists = await UserApi.existsUserByEmail(email)
+    //             return !isExists
+    //         }),
+    //     password: Yup.string()
+    //         .min(6, "Must be between 6 and 50 characters")
+    //         .max(50, "Must be between 6 and 50 characters")
+    //         .required("Required"),
+    //     confirmPassword: Yup.string()
+    //         .oneOf([Yup.ref("password"), null], "Password must match")
+    //         .required("Required"),
+    // })
+
+    // const onSubmit = async (values) => {
+    //         try {
+    //             // call api
+    //             await UserApi.register(values.username, values.email, values.password)
+    //             // toast message
+    //             toast.success("Register Successfully", {
+    //                 duration: 3000,
+    //                 position: "bottom-right",
+    //             })
+    //             dispatch(userActions.setOpenLoginModal(true))
+    //         } catch (error) {
+    //             console.log(error)
+    //             // redirect page error server
+    //             navigate("/notfound")
+    //         }
+    // }
+
+    const isPasswordConfirmed = (password, confirmPassword) => {
+        if (password && confirmPassword && password === confirmPassword) return true
+        return false
+    }
 
     const onSubmit = async (values) => {
-        try {
-            // call api
-            await UserApi.register(values.username, values.email, values.password)
-
-            // toast message
-            toast.success("Register Successfully", {
+        if (!isPasswordConfirmed(values.password, values.confirmPassword)) {
+            toast.error("Passwords does not match", {
                 duration: 3000,
                 position: "bottom-right",
             })
-            dispatch(userActions.setOpenLoginModal(true))
-        } catch (error) {
-            console.log(error)
-            // redirect page error server
-            navigate("/notfound")
         }
+        registerWithEmailAndPassword(values.username, values.email, values.password, values.confirmPassword)
     }
 
     return (
@@ -81,7 +96,7 @@ const SignUpModal = () => {
             <div className={cx("login-background")}>
                 <Formik
                     initialValues={initialValues}
-                    validationSchema={validationSchema}
+                    // validationSchema={validationSchema}
                     validateOnChange={false}
                     validateOnBlur={false}
                     onSubmit={onSubmit}>

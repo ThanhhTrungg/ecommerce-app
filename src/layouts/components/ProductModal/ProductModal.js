@@ -1,19 +1,19 @@
-import React from "react"
+import React, { useRef, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import classNames from "classnames/bind"
 import styles from "./ProductModal.module.scss"
 import { useDispatch, useSelector } from "react-redux"
-import Button from "../Button"
-import * as wishlistApi from "~/api/WishlistApi"
+import Button from "~/components/Button"
 import * as cartApi from "~/api/CartApi"
 import toast, { Toaster } from "react-hot-toast"
-import { Link, useNavigate } from "react-router-dom"
 import * as productActions from "~/redux/productSlice"
 import ecommerceService from "~/services/ecommerceService"
-import Image from "../Image"
+import Image from "~/components/Image"
 import { Grid } from "@mui/material"
-import { MinusIcon, PlusIcon } from "../Icons"
+import { MinusIcon, PlusIcon } from "~/components/Icons"
 import * as cartActions from "~/redux/cartSlice"
+import * as productApi from "~/api/ProductApi"
 
 const cx = classNames.bind(styles)
 
@@ -21,11 +21,11 @@ const ProductModal = ({ modalDetail, activeModal }) => {
     console.log("modalDetail", modalDetail)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { cartItemQuantity } = useSelector((state) => state.cart)
+    const { incrementQuantity, decrementQuantity } = useSelector((state) => state.cart)
     const { listProducts } = useSelector((state) => state.product)
 
-    const handleCloseModal = () => {
-        dispatch(productActions.setProductDetail(null))
+    const handleCloseModal = (e) => {
+        dispatch(productActions.getProductDetail(null))
     }
     const handleCloseDetailProduct = (e) => {
         e.stopPropagation()
@@ -33,7 +33,7 @@ const ProductModal = ({ modalDetail, activeModal }) => {
 
     const handleAddToCart = async () => {
         try {
-            const response = await cartApi.addItemCart(modalDetail.id, cartItemQuantity)
+            const response = await cartApi.addItemCart(modalDetail.id)
             toast.success(response.message, {
                 duration: 3000,
                 position: "bottom-right",
@@ -55,51 +55,6 @@ const ProductModal = ({ modalDetail, activeModal }) => {
         }
     }
 
-    // const handleAddWishlist = async () => {
-    //     try {
-    //         const response = await wishlistApi.addItemWishlist(modalDetail.id)
-    //         toast.success(response.message, {
-    //             duration: 3000,
-    //             position: "bottom-right",
-    //         })
-    //         dispatch(ecommerceService.getListWishlist())
-    //     } catch (error) {
-    //         console.log(error)
-    //         if (error.status === 500) {
-    //             toast.error("error", {
-    //                 position: "bottom-right",
-    //                 duration: 3000,
-    //             })
-    //         } else {
-    //             toast.error("This product has been added before", {
-    //                 position: "bottom-right",
-    //                 duration: 3000,
-    //             })
-    //         }
-    //     }
-    // }
-
-    // const handleDeleteWishlist = async (itemId) => {
-    //     try {
-    //         const response = await wishlistApi.deleteItemWishlist(itemId)
-    //         toast.success(response.message, {
-    //             duration: 3000,
-    //             position: "bottom-right",
-    //         })
-    //         dispatch(ecommerceService.getListWishlist())
-    //     } catch (error) {
-    //         error.status === 500
-    //             ? toast.error("error", {
-    //                   position: "bottom-right",
-    //                   duration: 3000,
-    //               })
-    //             : toast.error(error.data, {
-    //                   position: "bottom-right",
-    //                   duration: 3000,
-    //               })
-    //     }
-    // }
-
     return (
         <div className={cx("productDetail-modal", { activeModal })} onClick={handleCloseModal}>
             <Grid
@@ -111,11 +66,7 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                 {modalDetail && (
                     <>
                         <Grid className={cx("detail-img")}>
-                            <Image
-                                className={cx("img-product")}
-                                src={modalDetail.images[Math.floor(Math.random() * modalDetail.images.length - 1)]}
-                                alt={modalDetail.title}
-                            />
+                            <Image className={cx("img-product")} src={modalDetail.images} alt={modalDetail.title} />
                         </Grid>
 
                         <Grid className={cx("detail-content")}>
@@ -137,23 +88,13 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                                     mobile={3}
                                     smMobile={4}
                                     className={cx("quantity-actions")}>
-                                    <Button
-                                        className={cx("btn-minus")}
-                                        onClick={() =>
-                                            dispatch(
-                                                cartActions.setCartItemQuantity(
-                                                    cartItemQuantity - 1 === 0 ? 1 : cartItemQuantity - 1
-                                                )
-                                            )
-                                        }>
+                                    <Button className={cx("btn-minus")}>
                                         <MinusIcon />
                                     </Button>
 
-                                    <span className={cx("span-quantity")}>{cartItemQuantity}</span>
+                                    <span className={cx("span-quantity")}>0</span>
 
-                                    <Button
-                                        className={cx("btn-plus")}
-                                        onClick={() => dispatch(cartActions.setCartItemQuantity(cartItemQuantity + 1))}>
+                                    <Button className={cx("btn-plus")}>
                                         <PlusIcon />
                                     </Button>
                                 </Grid>
@@ -170,12 +111,12 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                                 className={cx("footer-modal")}>
                                 <Grid display="flex" flexDirection="column">
                                     <span className={cx("belong-category")}>
-                                        <span>Category:</span> {modalDetail.categoryName}
+                                        <span>Category: </span> {modalDetail.title}
                                     </span>
-                                    <span className={cx("smBelong-category")}>{modalDetail.categoryName}</span>
+                                    <span className={cx("smBelong-category")}>{modalDetail.title}</span>
                                 </Grid>
                                 <Grid className={cx("more-info")}>
-                                    <Link to="/">More info</Link>
+                                    <Link to={"/product"}>More info</Link>
                                 </Grid>
                             </Grid>
                         </Grid>

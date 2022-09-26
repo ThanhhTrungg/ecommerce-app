@@ -1,6 +1,5 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import ModalComp from "~/components/ModalComp/ModalComp"
 
 import classNames from "classnames/bind"
 import styles from "./Header.module.scss"
@@ -91,8 +90,8 @@ const Header = () => {
                             dispatch(ecommerceService.getListCart())
                         }}>
                         <CartIcon className={cx("act-bag")} />
-                        {listCart.cartItems && listCart.cartItems.length > 0 ? (
-                            <span className={cx("quantity")}>{listCart.cartItems.length}</span>
+                        {listCart && listCart.length > 0 ? (
+                            <span className={cx("quantity")}>{listCart.length}</span>
                         ) : (
                             ""
                         )}
@@ -110,7 +109,6 @@ const Header = () => {
             </Grid>
             <Navbar />
             <NavbarBottom />
-            <ModalComp />
         </header>
     )
 }

@@ -17,3 +17,7 @@ export const createProduct = (title, price, description, categoryId, images) => 
 export const listProduct = () => {
     return Api.get(url)
 }
+
+export const getProduct = (id) => {
+    return Api.get(`${url}/${id}`)
+}

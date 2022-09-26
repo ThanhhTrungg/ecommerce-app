@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Scrollbar } from "swiper"
 import "swiper/scss"
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom"
 import * as categoryActions from "~/redux/categorySlice"
 import * as productActions from "~/redux/productSlice"
 import * as categoryApi from "~/api/CategoryApi"
+import Products from "~/components/Products"
 
 const cx = classNames.bind(styles)
 
@@ -30,8 +31,8 @@ const Search = () => {
                 <Swiper
                     modules={[Navigation, Scrollbar]}
                     spaceBetween={10}
-                    slidesPerView={7}
-                    loop={true}
+                    slidesPerView={8}
+                    loop={false}
                     navigation={{ prevEl: ".btn-prev", nextEl: ".btn-next" }}
                     className={cx("swiper-content")}>
                     {listCategories &&
@@ -79,18 +80,7 @@ const Search = () => {
                     ""
                 )}
                 {products && products.length > 0 ? (
-                    products.map((product, idx) => (
-                        <div key={idx}>
-                            <Image
-                                src={product.images[Math.floor(Math.random() * product.images.length - 1)]}
-                                alt={product.title}
-                                className={"product-img"}
-                            />
-                            {/* <p className={"list-skuProduct"}>{product.productCode}</p> */}
-                            <p className={"list-nameProduct"}>{product.title}</p>
-                            <p className={"list-nameProduct"}>{product.price}</p>
-                        </div>
-                    ))
+                    <Products products={products} className={cx("search-products")} />
                 ) : (
                     <div className={cx("empty-content")}>
                         <Image src="https://kachabazar-store.vercel.app/no-result.svg" alt="No products" />

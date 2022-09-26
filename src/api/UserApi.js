@@ -2,7 +2,7 @@ import Api from "./Api"
 
 const url = "/user"
 
-const register = (username,email, password ) => {
+const register = (username, email, password) => {
     const body = {
         userName: username,
         email: email,

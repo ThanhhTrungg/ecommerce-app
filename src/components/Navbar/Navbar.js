@@ -21,6 +21,7 @@ import { useScrollY } from "~/hooks"
 
 import classNames from "classnames/bind"
 import styles from "./Navbar.module.scss"
+import CategoriesDropdown from "../CategoriesDropdown"
 const cx = classNames.bind(styles)
 
 const pageMenu = [
@@ -109,7 +110,7 @@ const Navbar = () => {
                             <ClickAwayListener onClickAway={() => setShowListCategory(false)}>
                                 <div className={cx("categories-result")}>
                                     <PopperWrapper>
-                                        <Categories data={listCategories} icon />
+                                        <CategoriesDropdown categories={listCategories} icon />
                                     </PopperWrapper>
                                 </div>
                             </ClickAwayListener>

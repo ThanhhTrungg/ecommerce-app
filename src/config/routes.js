@@ -1,12 +1,9 @@
 const routes = {
     home: "/",
-    signin: "/signin",
-    signup: "/signup",
-    notfound: "/notfound",
+    notfound: "*",
     search: "/search",
-    dashboardUser: "/dashboard-user",
-    wishlist: "/wishlist",
-    cart: "/cart",
+    userDashboard: "/user-dashboard",
+    productDetail: "/product",
 }
 
 export default routes

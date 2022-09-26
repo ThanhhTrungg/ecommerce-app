@@ -12,6 +12,7 @@ import Button from "~/components/Button"
 import classNames from "classnames/bind"
 import styles from "./UserDashboard.module.scss"
 import Image from "~/components/Image"
+import Loading from "~/components/Loading"
 const cx = classNames.bind(styles)
 
 const UserDashboard = () => {
@@ -64,7 +65,7 @@ const UserDashboard = () => {
                 values.productPrice,
                 values.productDes,
                 values.selectOption,
-                values.imgUrl
+                values.imgUrl.split(",")
             )
             console.log(result)
             // message success
@@ -178,14 +179,8 @@ const UserDashboard = () => {
                             <h2>My Order</h2>
                         </div>
                         <div className={cx("card-body")}>
-                            <p>
-                                Hello, <strong>{localStorage.getItem("userName")}</strong> (If Not{" "}
-                                <strong>{localStorage.getItem("userName")} !</strong> Logout )
-                            </p>
-                            <p>
-                                From your account dashboard. you can easily check & view your recent orders, manage your
-                                shipping and billing addresses and edit your password and account details.
-                            </p>
+                            <p>Updating...</p>
+                            <Loading />
                         </div>
                     </div>
 

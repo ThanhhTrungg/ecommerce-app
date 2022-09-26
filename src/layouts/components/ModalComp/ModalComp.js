@@ -1,8 +1,8 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import LoginModal from "~/components/LoginModal"
-import SignUpModal from "~/components/SignUpModal"
-import ForgotModal from "~/components/ForgotModal"
+import LoginModal from "~/layouts/components/LoginModal"
+import SignUpModal from "~/layouts/components/SignUpModal"
+import ForgotModal from "~/layouts/components/ForgotModal"
 import { Modal, Backdrop, Fade, Box } from "@mui/material"
 import * as userActions from "~/redux/userSlice"
 

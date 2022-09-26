@@ -1,0 +1,42 @@
+.category-item, .list-categories {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    padding: 0.8rem;
+    align-items: center;
+    
+    &:hover,&:hover .category-name{
+        background: #f9fafb;
+        color: var(--primary-color);
+     }
+}
+
+.category-img, .img-category {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: 12px;
+}
+
+.category-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.4rem;
+}
+
+.category-name, .list-categoryName {
+    line-height: 20px;
+}
+
+.category-icon {
+}
+
+.arrowDown-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: #a4aab5;
+}
+
+.arrowHorizon-icon {
+
+}

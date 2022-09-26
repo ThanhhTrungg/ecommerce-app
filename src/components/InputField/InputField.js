@@ -7,7 +7,7 @@ const cx = classNames.bind(styles)
 const InputField = ({ label, icon, ...props }) => {
     const [field, meta] = useField(props)
     return (
-        <div style={{ position: "relative", marginBottom: "20px" }}>
+        <div style={{ position: "relative", marginBottom: "20px", flex: 1 }}>
             {label && (
                 <label htmlFor={field.name} className={cx("field-label")}>
                     {label}

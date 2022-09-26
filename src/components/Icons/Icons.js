@@ -246,7 +246,7 @@ export const GiftIcon = ({ width = "1.6rem", height = "1.6rem", className }) => 
     </svg>
 )
 
-export const TickBagIcon = ({ width = "1.6rem", height = "1.6rem", className }) => (
+export const TickBagIcon = ({ width = "2rem", height = "2rem", className }) => (
     <svg
         stroke="currentColor"
         fill="currentColor"

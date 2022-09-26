@@ -1,50 +1,56 @@
 import { Divider, Drawer, List, ListItem } from "@mui/material"
 import React from "react"
 import priceFormat from "~/utils/priceFormat"
-import Image from "../Image"
-import Button from "../Button"
-import { BagIcon, MinusIcon, PlusIcon, TickBagIcon, TrashIcon, XMarkIcon } from "../Icons"
-import * as cartActions from "~/redux/cartSlice"
+import Image from "~/components/Image"
+import Button from "~/components/Button"
+import { BagIcon, MinusIcon, PlusIcon, TickBagIcon, TrashIcon, XMarkIcon } from "~/components/Icons"
+import cartSlice from "~/redux/cartSlice"
 import { deleteItemCart } from "~/api/CartApi"
 import { useDispatch, useSelector } from "react-redux"
-import ecommerceService from "~/services/ecommerceService"
+import * as cartActions from "~/redux/cartSlice"
 
 import classNames from "classnames/bind"
 import styles from "./CartDrawer.module.scss"
-import {  styled } from "@mui/system"
+import { styled } from "@mui/system"
+import toast from "react-hot-toast"
 const cx = classNames.bind(styles)
 
 const CardHead = styled("div")({
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",    
+    justifyContent: "space-between",
     background: "#eef2ff",
     height: "70px",
-    padding: "16px 20px"
-
+    padding: "16px 20px",
 })
 
 const CartDrawer = ({ isOpen, handleClose, items }) => {
     const dispatch = useDispatch()
-    const { cartItemQuantity, listCart } = useSelector((state) => state.cart)
-    const { productDetail } = useSelector((state) => state.product)
+    const { listCart } = useSelector((state) => state.cart)
     console.log("listCart", listCart)
 
-    const handleDeleteItem = async (id) => {
+    const handleDeleteItem = (id) => {
         try {
-            const token = localStorage.getItem("token")
-            if (!token) {
-                console.log("token is null")
-                return
-            } else {
-                const response = await deleteItemCart(id, token)
-                dispatch(cartActions.deleteItemCart(response))
-                dispatch(ecommerceService.getListCart())
-            }
+            dispatch(cartActions.removeItem(id))
+            toast.success("Product has been remove from cart", {
+                duration: 3000,
+                position: "bottom-left",
+            })
         } catch (error) {
-            console.log("Get all items cart API is error: ", error)
+            console.error("Get all items cart API is error: ", error)
         }
     }
+
+    const getTotal = () => {
+        let totalQuantity = 0
+        let totalPrice = 0
+        listCart.forEach((itemCart) => {
+            totalQuantity += itemCart.quantity
+            totalPrice += itemCart.price * itemCart.quantity
+        })
+        return { totalPrice, totalQuantity }
+    }
+
     return (
         <Drawer
             PaperProps={{ sx: { width: "420px", display: "flex", justifyContent: "space-between" } }}
@@ -53,50 +59,50 @@ const CartDrawer = ({ isOpen, handleClose, items }) => {
             onClose={handleClose}
             anchor={"right"}
             transitionDuration={350}>
-            <CardHead>
-                <div>
+            <CardHead className={cx("cart-head")}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                     <TickBagIcon />
-                    <h2>Shopping Cart</h2>
+                    <h2 style={{ marginLeft: "8px", fontSize: "1.8rem" }}>Shopping Cart</h2>
                 </div>
                 <Button leftIcon={<XMarkIcon />} onClick={handleClose}>
                     Close
                 </Button>
             </CardHead>
-            <List disablePadding>
-                {items.cartItems && items.cartItems.length > 0 ? (
-                    items.cartItems.map((element, index) => (
+            <ul disablePadding className={cx("cart-info")} style={{ textAlign: "center" }}>
+                {listCart && listCart.length > 0 ? (
+                    listCart.map((itemCart, index) => (
                         <>
-                            <ListItem key={index} disablePadding className={cx("body-item")}>
-                                <Image src={element.product.productImageUrl} className={cx("item-img")} />
+                            <li key={index} disablePadding className={cx("item-body")}>
+                                <div>
+                                    <Image src={itemCart.images} className={cx("item-img")} />
+                                </div>
                                 <div className={cx("item-info")}>
-                                    <h3 className={cx("item-head")}>{element.product.productName}</h3>
-                                    <span className={cx("item-price")}>
-                                        Item price {priceFormat(element.product.productPrice)}
-                                    </span>
+                                    <h3 className={cx("item-head")}>{itemCart.name}</h3>
+                                    <span className={cx("item-price")}>Item price {priceFormat(itemCart.price)}</span>
                                     <div>
-                                        <span>{priceFormat(element.product.productPrice * element.quantity)}</span>
+                                        <span>{priceFormat(itemCart.price * itemCart.quantity)}</span>
 
                                         <div>
                                             <Button
                                                 className={cx("btn-minus")}
                                                 leftIcon={<MinusIcon />}
-                                                onClick={() => {}}
+                                                onClick={() => dispatch(cartActions.decrementQuantity(itemCart.id))}
                                             />
-                                            <span className={cx("span-quantity")}>{cartItemQuantity}</span>
+                                            <span className={cx("span-quantity")}>{itemCart.quantity}</span>
                                             <Button
                                                 className={cx("btn-plus")}
                                                 leftIcon={<PlusIcon />}
-                                                onClick={() => {}}
+                                                onClick={() => dispatch(cartActions.incrementQuantity(itemCart.id))}
                                             />
                                         </div>
 
                                         <Button
                                             leftIcon={<TrashIcon />}
-                                            onClick={() => handleDeleteItem(element.product.id)}
+                                            onClick={() => handleDeleteItem(itemCart.id)}
                                         />
                                     </div>
                                 </div>
-                            </ListItem>
+                            </li>
                             <Divider />
                         </>
                     ))
@@ -107,10 +113,10 @@ const CartDrawer = ({ isOpen, handleClose, items }) => {
                         <p>No items added in your cart. Please add product to your cart list.</p>
                     </div>
                 )}
-            </List>
+            </ul>
             <div className={cx("cart-footer")}>
                 <span>Proceed To Checkout</span>
-                <span>{items.totalCost ? priceFormat(items.totalCost) : priceFormat(0)}</span>
+                <span>{priceFormat(getTotal().totalPrice)}</span>
             </div>
         </Drawer>
     )

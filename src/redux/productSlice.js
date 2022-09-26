@@ -6,12 +6,16 @@ export const productSlice = createSlice({
         listProducts: [],
         productDetail: null,
         sortPrice: "",
+        loading: false,
     },
     reducers: {
         getAllProducts: (state, action) => {
             state.listProducts = action.payload
         }, // actions types : product/getAllProducts
-        setProductDetail: (state, action) => {
+        getProduct: (state, action) => {
+            state.product = action.payload
+        }, // actions types : product/getProduct
+        getProductDetail: (state, action) => {
             state.productDetail = action.payload
         }, // actions types : product/setProductDetail
         sortPrice: (state, action) => {
@@ -33,9 +37,12 @@ export const productSlice = createSlice({
                 product !== undefined && product.slice().sort((a, b) => (a.id > b.id ? 1 : -1))
             }
         }, // actions types : product/setProductDetail
+        setLoading: (state, action) => {
+            state.loading = action.payload
+        }, // actions types : product/setProductDetail
     },
 })
 
-export const { getAllProducts, setProductDetail, sortPrice } = productSlice.actions
+export const { getAllProducts, getProductDetail, sortPrice, setLoading } = productSlice.actions
 
 export default productSlice.reducer

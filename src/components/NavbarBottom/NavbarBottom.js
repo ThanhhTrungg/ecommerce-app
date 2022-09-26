@@ -39,8 +39,8 @@ const NavbarBottom = ({ className }) => {
                             dispatch(cartActions.handleOpenDrawer(true))
                         }}>
                         <CartIcon className={cx("cart-icon")} />
-                        {listCart.cartItems && listCart.cartItems.length > 0 ? (
-                            <span className={cx("quantity")}>{listCart.cartItems.length}</span>
+                        {listCart && listCart.length > 0 ? (
+                            <span className={cx("quantity")}>{listCart.length}</span>
                         ) : (
                             ""
                         )}

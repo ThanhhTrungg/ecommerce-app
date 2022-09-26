@@ -2,7 +2,7 @@ import Api from "./Api"
 
 const url = "/categories"
 
-export const createCategory = ( name, image) => {
+export const createCategory = (name, image) => {
     const body = {
         name,
         image,

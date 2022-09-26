@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux"
 import * as userActions from "~/redux/userSlice"
 import InputField from "~/components/InputField"
 import UserApi from "~/api/UserApi"
-import toast from "react-hot-toast"
 import { EnvelopeIcon, FBIcon, GGIcon } from "~/components/Icons"
+import { sendPasswordReset } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./ForgotModal.module.scss"
@@ -23,31 +23,31 @@ const ForgotModal = () => {
         email: "",
     }
 
-    const validationSchema = Yup.object({
-        email: Yup.string().email("Must be a valid email").required("Please Enter your Email"),
-    })
+    // const validationSchema = Yup.object({
+    //     email: Yup.string().email("Must be a valid email").required("Please Enter your Email"),
+    // })
 
     const onSubmit = async (values) => {
-        try {
-            // call api
-            const result = await UserApi.signin(values.email, values.password)
-            console.log(result)
-
-            // redirect to home page
-            navigate("/")
-        } catch (error) {
-            console.log(error)
-            if (error.status === 401) {
-                // show error notification
-                toast.error("Wrong Username or Password!", {
-                    duration: 3000,
-                    position: "bottom-right",
-                })
-            } else if (error.status === 404) {
-                // redirect page error server
-                navigate("/notfound")
-            }
-        }
+        sendPasswordReset(values.email)
+        // try {
+        //     // call api
+        //     const result = await UserApi.signin(values.email, values.password)
+        //     console.log(result)
+        //     // redirect to home page
+        //     navigate("/")
+        // } catch (error) {
+        //     console.log(error)
+        //     if (error.status === 401) {
+        //         // show error notification
+        //         toast.error("Wrong Username or Password!", {
+        //             duration: 3000,
+        //             position: "bottom-right",
+        //         })
+        //     } else if (error.status === 404) {
+        //         // redirect page error server
+        //         navigate("/notfound")
+        //     }
+        // }
     }
 
     return (
@@ -57,7 +57,10 @@ const ForgotModal = () => {
                 <p>Reset Your Password</p>
             </div>
             <div className={cx("login-background")}>
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                <Formik
+                    initialValues={initialValues}
+                    // validationSchema={validationSchema}
+                    onSubmit={onSubmit}>
                     {() => (
                         <Form className={cx("form-login")}>
                             <InputField
