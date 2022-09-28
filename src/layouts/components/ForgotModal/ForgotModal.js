@@ -8,10 +8,12 @@ import * as userActions from "~/redux/userSlice"
 import InputField from "~/components/InputField"
 import UserApi from "~/api/UserApi"
 import { EnvelopeIcon, FBIcon, GGIcon } from "~/components/Icons"
-import { sendPasswordReset } from "~/firebase"
+import { sendPasswordResetEmail } from "firebase/auth"
+import { auth } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./ForgotModal.module.scss"
+import toast from "react-hot-toast"
 
 const cx = classNames.bind(styles)
 
@@ -28,7 +30,17 @@ const ForgotModal = () => {
     // })
 
     const onSubmit = async (values) => {
-        sendPasswordReset(values.email)
+        try {
+            await sendPasswordResetEmail(auth, values.email)
+            toast.success("Password reset link sent!", {
+                duration: 3000,
+                position: "bottom-right",
+            })
+        } catch (err) {
+            console.error(err)
+            alert(err.message)
+        }
+
         // try {
         //     // call api
         //     const result = await UserApi.signin(values.email, values.password)

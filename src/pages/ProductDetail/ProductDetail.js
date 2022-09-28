@@ -11,7 +11,7 @@ import Button from "~/components/Button"
 const cx = classNames.bind(styles)
 
 const ProductDetail = () => {
-    const { loading, productDetail } = useSelector((state) => state.product)
+    const { productDetail } = useSelector((state) => state.product)
 
     useEffect(() => {}, [])
     return (
@@ -25,7 +25,7 @@ const ProductDetail = () => {
                     Home
                 </Link>
                 <ArrowHorizonIcon />
-                <p className={cx("product-name")}></p>
+                <p className={cx("product-name")}>{productDetail.title}</p>
             </div>
 
             <Grid container justifyContent="center" alignItems="center" className={cx("detail-container")}>

@@ -1,7 +1,7 @@
 import React from "react"
 import Image from "~/components/Image"
 import { Grid } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import * as categoryApi from "~/api/CategoryApi"
 import * as categoryActions from "~/redux/categorySlice"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,15 +12,12 @@ import Loading from "~/components/Loading"
 const cx = classNames.bind(styles)
 
 const Categories = ({ categories, title, text, className }) => {
-    console.log("categories", categories)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { loading } = useSelector((state) => state.product)
 
     const handleSearchProductByCategory = async (name, id) => {
         navigate(`/search?Category=${name}`)
-        const response = await categoryApi.getAllProductsByCategory(id)
-        dispatch(categoryActions.getProductsByCategory(response))
     }
 
     return (

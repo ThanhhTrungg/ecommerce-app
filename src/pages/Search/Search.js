@@ -1,4 +1,4 @@
-import React from "react"
+import React, {  useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Scrollbar } from "swiper"
 import "swiper/scss"
@@ -23,7 +23,33 @@ const Search = () => {
     const navigate = useNavigate()
     const { listCategories, products } = useSelector((state) => state.category)
     const { sortPrice } = useSelector((state) => state.product)
+    const [order, setOrder] = useState("asc")
+    const [filterProductList, setFilterProductList] = useState([])
+    console.log("filterProductList", filterProductList)
     const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     const fetchApi = async () => {
+    //         const response = await categoryApi.getAllProductsByCategory(category.id)
+    //         dispatch(categoryActions.getProductsByCategory(response))
+    //     }
+    //     fetchApi()
+    // }, [])
+
+    const handleCategoryContent = async (category) => {
+        navigate(`/search?Category=${category.name}`)
+        const response = await categoryApi.getAllProductsByCategory(category.id)
+        const result = [...response, order]
+        setFilterProductList(result)
+        dispatch(categoryActions.getProductsByCategory(result))
+    }
+
+    const handleOrderChangeAsc = () => {
+        setOrder("asc")
+    }
+    const handleOrderChangeDesc = () => {
+        setOrder("desc")
+    }
 
     return (
         <div className={cx("search-background")}>
@@ -41,11 +67,7 @@ const Search = () => {
                             <SwiperSlide
                                 key={idx}
                                 className={cx("category-content")}
-                                onClick={async () => {
-                                    navigate(`/search?Category=${category.name}`)
-                                    const response = await categoryApi.getAllProductsByCategory(category.id)
-                                    dispatch(categoryActions.getProductsByCategory(response))
-                                }}>
+                                onClick={() => handleCategoryContent(category)}>
                                 <div className={cx("category-img")}>
                                     <Image src={category.image} alt={category.name} />
                                 </div>
@@ -72,8 +94,12 @@ const Search = () => {
                             <option value="" selected disabled hidden>
                                 Sort By Price
                             </option>
-                            <option value="lowest">Low to High</option>
-                            <option value="highest">High to Low</option>
+                            <option value="lowest" onClick={handleOrderChangeAsc}>
+                                Low to High
+                            </option>
+                            <option value="highest" onClick={handleOrderChangeDesc}>
+                                High to Low
+                            </option>
                         </select>
                     </div>
                 ) : (

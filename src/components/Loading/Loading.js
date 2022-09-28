@@ -4,9 +4,9 @@ import styles from "./Loading.module.scss"
 
 const cx = classNames.bind(styles)
 
-const Loading = () => {
+const Loading = ({ modalBg }) => {
     return (
-        <div className={cx("loading-container")}>
+        <div className={cx("loading-container", modalBg ? "modalBg" : "")}>
             <span className={cx("loading-item")} />
             <span className={cx("loading-item")} />
             <span className={cx("loading-item")} />

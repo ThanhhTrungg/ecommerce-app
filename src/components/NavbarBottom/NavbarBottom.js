@@ -5,7 +5,6 @@ import Button from "~/components/Button"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import * as useActions from "~/redux/userSlice"
-import ecommerceService from "~/services/ecommerceService"
 import * as cartActions from "~/redux/cartSlice"
 
 import classNames from "classnames/bind"
@@ -23,7 +22,11 @@ const NavbarBottom = ({ className }) => {
             sx={{ display: { smMobile: "flex", mobile: "flex", smTablet: "flex", tablet: "flex", laptop: "none" } }}>
             <Grid container alignItems="center" justifyContent="space-between" px="40px">
                 <Grid>
-                    <button className={cx("navbar-menubar")}>
+                    <button
+                        className={cx("navbar-menubar")}
+                        onClick={() => {
+                            dispatch(cartActions.handleOpenDrawer(true))
+                        }}>
                         <MenuBarIcon className={cx("menubar-icon")} />
                     </button>
                 </Grid>

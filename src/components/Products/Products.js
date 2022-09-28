@@ -6,7 +6,6 @@ import "swiper/scss"
 import "swiper/scss/navigation"
 import "swiper/scss/scrollbar"
 
-import { useNavigate } from "react-router-dom"
 import * as productActions from "~/redux/productSlice"
 import * as cartActions from "~/redux/cartSlice"
 
@@ -21,9 +20,7 @@ import Loading from "~/components/Loading"
 const cx = classNames.bind(styles)
 
 const Products = ({ products, title, text, className }) => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-    let { incrementQuantity, decrementQuantity } = useSelector((state) => state.cart)
     let { loading } = useSelector((state) => state.product)
 
     // open modal product detail

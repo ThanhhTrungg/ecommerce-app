@@ -5,7 +5,6 @@ export const cartSlice = createSlice({
     initialState: {
         listCart: [],
         openCartDrawer: false,
-        cartItemQuantity: 1,
     },
     reducers: {
         getListCart: (state, action) => {
@@ -31,6 +30,15 @@ export const cartSlice = createSlice({
                 item.quantity--
             }
         },
+        incrementByAmount: (state, action) => {
+            const { modalDetail, quantity } = action.payload
+            const itemInCart = state.listCart.find((item) => item.id === modalDetail.id)
+            if (itemInCart) {
+                itemInCart.quantity += quantity
+            } else {
+                state.listCart.push({ ...modalDetail, quantity: quantity })
+            }
+        },
         removeItem: (state, action) => {
             const removeItem = state.listCart.filter((item) => item.id !== action.payload)
             state.listCart = removeItem
@@ -41,7 +49,14 @@ export const cartSlice = createSlice({
     },
 })
 
-export const { getListCart, addToCart, incrementQuantity, decrementQuantity, removeItem, handleOpenDrawer } =
-    cartSlice.actions
+export const {
+    getListCart,
+    addToCart,
+    incrementQuantity,
+    decrementQuantity,
+    incrementByAmount,
+    removeItem,
+    handleOpenDrawer,
+} = cartSlice.actions
 
 export default cartSlice.reducer

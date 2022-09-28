@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import classNames from "classnames/bind"
-import styles from "./HomeContent.module.scss"
 import { BagIcon } from "../Icons"
 import priceFormat from "~/utils/priceFormat"
 import * as cartActions from "~/redux/cartSlice"
@@ -13,6 +11,8 @@ import * as productApi from "~/api/ProductApi"
 import * as categoryActions from "~/redux/categorySlice"
 import * as productActions from "~/redux/productSlice"
 
+import classNames from "classnames/bind"
+import styles from "./HomeContent.module.scss"
 const cx = classNames.bind(styles)
 
 const HomeContent = () => {
@@ -47,8 +47,8 @@ const HomeContent = () => {
     }, [dispatch])
 
     const getTotal = () => {
-        let totalQuantity = 0
-        let totalPrice = 0
+        let totalQuantity = 0,
+            totalPrice = 0
         listCart.forEach((itemCart) => {
             totalQuantity += itemCart.quantity
             totalPrice += itemCart.price * itemCart.quantity

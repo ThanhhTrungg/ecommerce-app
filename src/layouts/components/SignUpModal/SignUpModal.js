@@ -12,7 +12,9 @@ import toast from "react-hot-toast"
 import classNames from "classnames/bind"
 import styles from "./SignUpModal.module.scss"
 import { EnvelopeIcon, FBIcon, GGIcon, LockIcon, UserIcon } from "../../../components/Icons"
-import { registerWithEmailAndPassword } from "~/firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { collection, addDoc } from "firebase/firestore"
+import { auth, db } from "~/firebase"
 
 const cx = classNames.bind(styles)
 
@@ -76,14 +78,46 @@ const SignUpModal = () => {
         return false
     }
 
-    const onSubmit = async (values) => {
+    const registerWithEmailAndPassword = async (values) => {
         if (!isPasswordConfirmed(values.password, values.confirmPassword)) {
             toast.error("Passwords does not match", {
                 duration: 3000,
                 position: "bottom-right",
             })
         }
-        registerWithEmailAndPassword(values.username, values.email, values.password, values.confirmPassword)
+        try {
+            const res = await createUserWithEmailAndPassword(
+                auth,
+                values.email,
+                values.password,
+                values.confirmPassword
+            )
+            const user = res.user
+            await addDoc(collection(db, "users"), {
+                uid: user.uid,
+                name: values.username,
+                authProvider: "local",
+                email: values.email,
+            })
+            toast.success("Register Success!", {
+                duration: 3000,
+                position: "bottom-right",
+            })
+        } catch (err) {
+            toast.error(err.message, {
+                duration: 3000,
+                position: "bottom-right",
+            })
+            if (err.code === "auth/email-already-in-use") {
+                return err.status(400).json({
+                    message: console.log("Email already taken!"),
+                })
+            } else {
+                return err.status(500).json({
+                    message: console.log("Something went wrong, Please try again later"),
+                })
+            }
+        }
     }
 
     return (
@@ -99,7 +133,7 @@ const SignUpModal = () => {
                     // validationSchema={validationSchema}
                     validateOnChange={false}
                     validateOnBlur={false}
-                    onSubmit={onSubmit}>
+                    onSubmit={registerWithEmailAndPassword}>
                     {() => (
                         <Form className={cx("form-login")}>
                             <InputField

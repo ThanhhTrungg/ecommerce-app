@@ -9,7 +9,9 @@ import InputField from "~/components/InputField"
 import toast from "react-hot-toast"
 import storage from "~/Storage/Storage"
 import { EnvelopeIcon, FBIcon, GGIcon, LockIcon } from "~/components/Icons"
-import { logInWithEmailAndPassword, signInWithGoogle } from "~/firebase"
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
+import { query, getDocs, collection, where, addDoc } from "firebase/firestore"
+import { auth, db, googleProvider } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./LoginModal.module.scss"
@@ -35,8 +37,66 @@ const LoginModal = () => {
             .required("Please Enter your Password"),
     })
 
+    // Sign in Google
+    const signInWithGoogle = async () => {
+        try {
+            const res = await signInWithPopup(auth, googleProvider)
+            const user = res.user
+            const q = query(collection(db, "users"), where("uid", "==", user.uid))
+            const docs = await getDocs(q)
+            if (docs.docs.length === 0) {
+                await addDoc(collection(db, "users"), {
+                    uid: user.uid,
+                    name: user.displayName,
+                    authProvider: "google",
+                    email: user.email,
+                })
+            }
+            toast.success("Login Success!", {
+                duration: 3000,
+                position: "bottom-right",
+            })
+        } catch (err) {
+            toast.error(err.message, {
+                duration: 3000,
+                position: "bottom-right",
+            })
+            if (err.code === "auth/user-not-found") {
+                return err.status(400).json({
+                    message: console.log("User not found"),
+                })
+            } else {
+                return err.status(500).json({
+                    message: console.log("Something went wrong, Please try again later"),
+                })
+            }
+        }
+    }
+
     const onSubmit = async (values) => {
-        logInWithEmailAndPassword(values.email, values.password)
+        try {
+            const res = await signInWithEmailAndPassword(auth, values.email, values.password)
+            console.log("res", res)
+            toast.success("Login Success!", {
+                duration: 3000,
+                position: "bottom-right",
+            })
+        } catch (err) {
+            console.error("err", err.message)
+            toast.error(err.message, {
+                duration: 3000,
+                position: "bottom-right",
+            })
+            if (err.code === "auth/user-not-found") {
+                return err.status(400).json({
+                    message: console.log("User not found"),
+                })
+            } else {
+                return err.status(500).json({
+                    message: console.log("Something went wrong, Please try again later"),
+                })
+            }
+        }
 
         // try {
         //     // call api
@@ -83,7 +143,7 @@ const LoginModal = () => {
         //     }
         // }
     }
-  
+
     return (
         <>
             <div className={cx("login-title")}>

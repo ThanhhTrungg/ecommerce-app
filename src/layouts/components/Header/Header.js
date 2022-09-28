@@ -9,7 +9,6 @@ import Navbar from "~/components/Navbar/Navbar"
 import { useScrollY } from "~/hooks"
 import { useDispatch, useSelector } from "react-redux"
 import Image from "~/components/Image/Image"
-import ecommerceService from "~/services/ecommerceService"
 import * as userActions from "~/redux/userSlice"
 import * as cartActions from "~/redux/cartSlice"
 import { Grid } from "@mui/material"
@@ -87,7 +86,6 @@ const Header = () => {
                         className={cx("action-btn")}
                         onClick={() => {
                             dispatch(cartActions.handleOpenDrawer(true))
-                            dispatch(ecommerceService.getListCart())
                         }}>
                         <CartIcon className={cx("act-bag")} />
                         {listCart && listCart.length > 0 ? (

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Grid, Box, Popper, ClickAwayListener, Fade } from "@mui/material"
+import { Grid, Box, Popper, ClickAwayListener, Fade, styled } from "@mui/material"
 
 import Button from "../Button"
 import {
@@ -15,8 +15,6 @@ import {
 } from "../Icons"
 import { useSelector } from "react-redux"
 import { Wrapper as PopperWrapper } from "~/components/Popper"
-import Categories from "../Categories"
-import Image from "~/components/Image"
 import { useScrollY } from "~/hooks"
 
 import classNames from "classnames/bind"
@@ -67,6 +65,9 @@ const pageMenu = [
     },
 ]
 
+export const ButtonPage = styled("button")({})
+export const CategoriesResult = styled("div")({})
+
 const Navbar = () => {
     const scrollY = useScrollY()
     const [showListCategory, setShowListCategory] = useState(false)
@@ -108,11 +109,11 @@ const Navbar = () => {
                     children={({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <ClickAwayListener onClickAway={() => setShowListCategory(false)}>
-                                <div className={cx("categories-result")}>
+                                <CategoriesResult className={cx("categories-result")}>
                                     <PopperWrapper>
                                         <CategoriesDropdown categories={listCategories} icon />
                                     </PopperWrapper>
-                                </div>
+                                </CategoriesResult>
                             </ClickAwayListener>
                         </Fade>
                     )}
@@ -125,27 +126,29 @@ const Navbar = () => {
                     onClick={(e) => setShowListPages(e.currentTarget)}>
                     Pages
                 </Button>
-                {/* <Popper
-                    children={
-                        <div className={cx("page-result")}>
-                            <PopperWrapper>
-                                {pageMenu.map((menu, index) => (
-                                    <button key={index}>
-                                        <Image src={menu.icon} alt={menu.title} />
-                                        <span>{menu.title}</span>
-                                    </button>
-                                ))}
-                            </PopperWrapper>
-                        </div>
-                    }
+                <Popper
+                    style={{ zIndex: "10" }}
+                    disablePortal
                     open={showListPages && pageMenu.length > 0}
                     anchorEl={showListPages}
-                    onClose={() => setShowListPages(false)}
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                    }}
-                /> */}
+                    placement="bottom-start"
+                    children={({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <ClickAwayListener onClickAway={() => setShowListPages(false)}>
+                                <div className={cx("page-result")}>
+                                    <PopperWrapper>
+                                        {pageMenu.map((menu, index) => (
+                                            <ButtonPage key={index}>
+                                                <span>{menu.icon}</span>
+                                                <span>{menu.title}</span>
+                                            </ButtonPage>
+                                        ))}
+                                    </PopperWrapper>
+                                </div>
+                            </ClickAwayListener>
+                        </Fade>
+                    )}
+                />
                 <Button className={cx("nav-btn", "offers-btn")}>
                     Offers
                     <span className={cx("ping-dot")}></span>

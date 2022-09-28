@@ -1,58 +1,37 @@
-import React, { useRef, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
 import classNames from "classnames/bind"
 import styles from "./ProductModal.module.scss"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import Button from "~/components/Button"
-import * as cartApi from "~/api/CartApi"
-import toast, { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
 import * as productActions from "~/redux/productSlice"
-import ecommerceService from "~/services/ecommerceService"
 import Image from "~/components/Image"
 import { Grid } from "@mui/material"
 import { MinusIcon, PlusIcon } from "~/components/Icons"
 import * as cartActions from "~/redux/cartSlice"
-import * as productApi from "~/api/ProductApi"
 
 const cx = classNames.bind(styles)
 
 const ProductModal = ({ modalDetail, activeModal }) => {
-    console.log("modalDetail", modalDetail)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { incrementQuantity, decrementQuantity } = useSelector((state) => state.cart)
-    const { listProducts } = useSelector((state) => state.product)
+    const [quantity, setQuantity] = useState(1)
 
     const handleCloseModal = (e) => {
         dispatch(productActions.getProductDetail(null))
+        setQuantity(1)
     }
     const handleCloseDetailProduct = (e) => {
         e.stopPropagation()
     }
 
-    const handleAddToCart = async () => {
-        try {
-            const response = await cartApi.addItemCart(modalDetail.id)
-            toast.success(response.message, {
-                duration: 3000,
-                position: "bottom-right",
-            })
-            dispatch(ecommerceService.getListCart())
-        } catch (error) {
-            console.log(error)
-            if (error.status === 500) {
-                toast.error("error", {
-                    position: "bottom-right",
-                    duration: 3000,
-                })
-            } else {
-                toast.error("This product has been added before", {
-                    position: "bottom-right",
-                    duration: 3000,
-                })
-            }
-        }
+    const handleAddToCart = (modalDetail, quantity) => {
+        dispatch(cartActions.incrementByAmount({ modalDetail, quantity }))
+        toast.success("Product has been added to cart", {
+            duration: 3000,
+            position: "bottom-left",
+        })
     }
 
     return (
@@ -88,18 +67,22 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                                     mobile={3}
                                     smMobile={4}
                                     className={cx("quantity-actions")}>
-                                    <Button className={cx("btn-minus")}>
+                                    <Button
+                                        className={cx("btn-minus")}
+                                        onClick={() => setQuantity(quantity - 1 > 1 ? quantity - 1 : 1)}>
                                         <MinusIcon />
                                     </Button>
 
-                                    <span className={cx("span-quantity")}>0</span>
+                                    <span className={cx("span-quantity")}>{quantity}</span>
 
-                                    <Button className={cx("btn-plus")}>
+                                    <Button className={cx("btn-plus")} onClick={() => setQuantity(quantity + 1)}>
                                         <PlusIcon />
                                     </Button>
                                 </Grid>
                                 <Grid laptop={7} tablet={7} smTablet={9} mobile={9} smMobile={8} marginLeft="16px">
-                                    <Button className={cx("action-addCart")} onClick={handleAddToCart}>
+                                    <Button
+                                        className={cx("action-addCart")}
+                                        onClick={() => handleAddToCart(modalDetail, quantity)}>
                                         Add to Cart
                                     </Button>
                                 </Grid>
@@ -123,7 +106,6 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                     </>
                 )}
             </Grid>
-            <Toaster />
         </div>
     )
 }
