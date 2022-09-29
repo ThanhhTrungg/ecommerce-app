@@ -12,11 +12,13 @@ import classNames from "classnames/bind"
 import styles from "./DefaultLayout.module.scss"
 import DrawerWrapper from "../components/DrawerWrapper"
 import MenuBottom from "~/components/MenuBottom"
+import CartLayout from "~/layouts/components/CartLayout"
+
 const cx = classNames.bind(styles)
 
 const DefaultLayout = ({ children }) => {
     const dispatch = useDispatch()
-    const { openCartDrawer, listCart } = useSelector((state) => state.cart)
+    const { openCartDrawer } = useSelector((state) => state.cart)
     const { productDetail } = useSelector((state) => state.product)
 
     return (
@@ -30,7 +32,7 @@ const DefaultLayout = ({ children }) => {
                 anchor="right"
                 isOpen={openCartDrawer}
                 handleClose={() => dispatch(cartActions.handleOpenDrawer(false))}>
-                <CartItem listCart={listCart} />
+                <CartLayout />
             </DrawerWrapper>
             {/* <DrawerWrapper
                 anchor="left"
@@ -39,7 +41,7 @@ const DefaultLayout = ({ children }) => {
                 <MenuBottom />
             </DrawerWrapper> */}
             <ModalComp />
-            <ProductModal modalDetail={productDetail} activeModal={productDetail} />
+            <ProductModal modalDetail={productDetail} activeModal={productDetail ? true : false} />
             <Footer />
         </div>
     )

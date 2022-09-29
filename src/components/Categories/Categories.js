@@ -18,6 +18,8 @@ const Categories = ({ categories, title, text, className }) => {
 
     const handleSearchProductByCategory = async (name, id) => {
         navigate(`/search?Category=${name}`)
+        const response = await categoryApi.getAllProductsByCategory(id)
+        dispatch(categoryActions.getProductsByCategory(response))
     }
 
     return (

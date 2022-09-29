@@ -1,4 +1,4 @@
-import React, {  useState } from "react"
+import React, { useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Scrollbar } from "swiper"
 import "swiper/scss"
@@ -27,14 +27,6 @@ const Search = () => {
     const [filterProductList, setFilterProductList] = useState([])
     console.log("filterProductList", filterProductList)
     const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     const fetchApi = async () => {
-    //         const response = await categoryApi.getAllProductsByCategory(category.id)
-    //         dispatch(categoryActions.getProductsByCategory(response))
-    //     }
-    //     fetchApi()
-    // }, [])
 
     const handleCategoryContent = async (category) => {
         navigate(`/search?Category=${category.name}`)

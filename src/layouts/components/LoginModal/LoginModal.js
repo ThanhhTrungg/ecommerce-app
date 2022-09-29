@@ -1,6 +1,5 @@
 import React from "react"
-import * as Yup from "yup"
-import { Form, Formik } from "formik"
+
 import { useNavigate } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
@@ -15,6 +14,8 @@ import { auth, db, googleProvider } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./LoginModal.module.scss"
+import { Form, Formik } from "formik"
+import * as Yup from "yup"
 
 const cx = classNames.bind(styles)
 
@@ -97,51 +98,6 @@ const LoginModal = () => {
                 })
             }
         }
-
-        // try {
-        //     // call api
-        //     const result = await UserApi.login(values.email, values.password)
-        //     console.log(result)
-
-        //     // check user active
-        //     if (result.token === null || result.token === undefined) {
-        //     } else {
-        //         // set remember me
-        //         storage.setRememberMe(checkedRememberMe)
-
-        //         // save token & UserInfo to storage
-        //         storage.setToken(result.token)
-        //         storage.setUserInfo(result.userName, result.email, result.role, result.status)
-
-        //         // save token & UserInfo to redux
-        //         // props.userSlice.setTokenInfo(result.token)
-        //         // props.userSlice.setUserLoginInfo(
-        //         //     result.userName,
-        //         //     result.email,
-        //         //     result.firstName,
-        //         //     result.lastName,
-        //         //     result.role,
-        //         //     result.status
-        //         // )
-
-        //         dispatch(userActions.setOpenLoginModal(false))
-        //         toast.success("Login Success!", {
-        //             duration: 3000,
-        //             position: "top-center",
-        //         })
-        //     }
-        // } catch (error) {
-        //     if (error.status === 400) {
-        //         // show error notification
-        //         toast.error(error.data, {
-        //             duration: 3000,
-        //             position: "bottom-right",
-        //         })
-        //     } else if (error.status === 404) {
-        //         // redirect page error server
-        //         navigate("/notfound")
-        //     }
-        // }
     }
 
     return (

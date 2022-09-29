@@ -8,6 +8,7 @@ import Profile from "~/pages/Profile/Profile"
 import UserDashboard from "~/pages/UserDashboard"
 import Search from "~/pages/Search"
 import ProductDetail from "~/pages/ProductDetail"
+import Checkout from "~/pages/Checkout"
 // Public routes
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -16,6 +17,7 @@ export const publicRoutes = [
     { path: config.routes.userDashboard, component: UserDashboard },
     { path: config.routes.search, component: Search },
     { path: config.routes.productDetail, component: ProductDetail },
+    { path: config.routes.checkout, component: Checkout },
 ]
 
 // Private routes

@@ -39,7 +39,6 @@ const ProductModal = ({ modalDetail, activeModal }) => {
             <Grid
                 container
                 justifyContent="center"
-                alignItems="center"
                 className={cx("detail-container")}
                 onClick={handleCloseDetailProduct}>
                 {modalDetail && (
