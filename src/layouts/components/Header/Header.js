@@ -56,7 +56,7 @@ const Header = () => {
                     }}
                     className={cx("header-logo")}>
                     <Button className={cx("logo-link")} onClick={() => navigate("/")}>
-                        <Image src="https://multikart-react.vercel.app/assets/images/icon/logo.png" alt="logo" />
+                        <Image src="https://kachabazar-store.vercel.app/logo/logo-light.svg" alt="logo" />
                     </Button>
                 </Grid>
                 <Grid

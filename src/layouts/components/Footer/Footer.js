@@ -83,7 +83,7 @@ const Footer = () => {
                     <Grid laptop={3} tablet={6} mobile={6} smMobile={6} className={cx("middle-item")}>
                         <Button className={cx("middle-link")} onClick={() => navigate("/")}>
                             <Image
-                                src="https://multikart-react.vercel.app/assets/images/icon/logo.png"
+                                src="https://kachabazar-store.vercel.app/logo/logo-color.svg"
                                 alt="logo"
                                 className={cx("middle-img")}
                             />
