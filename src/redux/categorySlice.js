@@ -7,7 +7,7 @@ export const categorySlice = createSlice({
         products: [],
     },
     reducers: {
-        getAllCategories: (state, action) => {
+        setAllCategories: (state, action) => {
             state.listCategories = action.payload
         }, // actions types : category/getAllCategories
         getProductsByCategory: (state, action) => {
@@ -16,6 +16,6 @@ export const categorySlice = createSlice({
     },
 })
 
-export const { getAllCategories, getProductsByCategory } = categorySlice.actions
+export const { setAllCategories, getProductsByCategory } = categorySlice.actions
 
 export default categorySlice.reducer

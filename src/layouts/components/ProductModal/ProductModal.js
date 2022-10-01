@@ -28,7 +28,7 @@ const ProductModal = ({ modalDetail, activeModal }) => {
 
     const handleAddToCart = (modalDetail, quantity) => {
         dispatch(cartActions.incrementByAmount({ modalDetail, quantity }))
-        toast.success("Product has been added to cart", {
+        toast.success(`${quantity} ${modalDetail.title} added to cart`, {
             duration: 3000,
             position: "bottom-left",
         })

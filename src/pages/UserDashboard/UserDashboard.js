@@ -2,23 +2,25 @@ import React, { useEffect, useRef, useState } from "react"
 import InputField from "~/components/InputField"
 import { Form, Formik } from "formik"
 import toast, { Toaster } from "react-hot-toast"
-import * as CategoryApi from "~/api/CategoryApi"
-import * as ProductApi from "~/api/ProductApi"
+import * as categoryApi from "~/api/CategoryApi"
+import * as productApi from "~/api/ProductApi"
 import SelectField from "~/components/SelectField/SelectField"
 import { useNavigate } from "react-router-dom"
 import { DashBoardIcon, FileIcon, MenuBarIcon, OptionIcon, UnlockIcon, UploadCloudIcon } from "~/components/Icons"
 import Button from "~/components/Button"
+import Image from "~/components/Image"
+import Loading from "~/components/Loading"
+import { signOut } from "firebase/auth"
+import { auth } from "~/firebase"
 
 import classNames from "classnames/bind"
 import styles from "./UserDashboard.module.scss"
-import Image from "~/components/Image"
-import Loading from "~/components/Loading"
+import withAuth from "~/HOC/withAuth"
 const cx = classNames.bind(styles)
 
 const UserDashboard = () => {
     const navigate = useNavigate()
     const [allCategories, setAllCategories] = useState([])
-    console.log("allCategories", allCategories)
     const [tabIndex, setTabIndex] = useState(1)
     const avatarInputFile = useRef()
     const [file, setFile] = useState()
@@ -48,7 +50,7 @@ const UserDashboard = () => {
 
     const handleAddCategory = async (values) => {
         try {
-            const result = await CategoryApi.createCategory(values.categoryName, values.imgUrl)
+            const result = await categoryApi.createCategory(values.categoryName, values.imgUrl)
             console.log(result)
             // message success
             if (result) toast.success("A new category created", { duration: 3000, position: "bottom-right" })
@@ -60,7 +62,7 @@ const UserDashboard = () => {
 
     const handleAddProduct = async (values) => {
         try {
-            const result = await ProductApi.createProduct(
+            const result = await productApi.createProduct(
                 values.productName,
                 values.productPrice,
                 values.productDes,
@@ -78,7 +80,7 @@ const UserDashboard = () => {
 
     const handleCategoryId = async () => {
         try {
-            const result = await CategoryApi.listCategory()
+            const result = await categoryApi.listCategory()
             setAllCategories(result)
         } catch (error) {
             console.log(error)
@@ -87,7 +89,7 @@ const UserDashboard = () => {
 
     const handleChangeProfile = async (values) => {
         try {
-            const result = await ProductApi.createProduct(
+            const result = await productApi.createProduct(
                 values.profileName,
                 values.profileAddress,
                 values.profileMobile,
@@ -102,7 +104,7 @@ const UserDashboard = () => {
         }
     }
 
-    const handleChangePassword = () => {}
+    const handleChangePassword = async (values) => {}
 
     return (
         <>
@@ -152,7 +154,7 @@ const UserDashboard = () => {
                         leftIcon={<UnlockIcon className={cx("dashboard-icon")} />}
                         className={cx("dashboard-actions")}
                         onClick={() => {
-                            localStorage.clear()
+                            signOut(auth)
                             navigate("/")
                         }}>
                         Logout
@@ -165,8 +167,8 @@ const UserDashboard = () => {
                         </div>
                         <div className={cx("card-body")}>
                             <p>
-                                Hello, <strong>{localStorage.getItem("userName")}</strong> (If Not{" "}
-                                <strong>{localStorage.getItem("userName")} !</strong> Logout )
+                                Hello, <strong>{auth.currentUser.email}</strong> (If Not{" "}
+                                <strong>{auth.currentUser.email} !</strong> Logout )
                             </p>
                             <p>
                                 From your account dashboard. you can easily check & view your recent orders, manage your
@@ -408,4 +410,4 @@ const UserDashboard = () => {
     )
 }
 
-export default UserDashboard
+export default withAuth(UserDashboard)

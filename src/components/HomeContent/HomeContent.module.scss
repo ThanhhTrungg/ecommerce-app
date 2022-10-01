@@ -53,9 +53,6 @@
     font-weight: 300;
 }
 
-
-
-
 .scrollUp-btn {
     position: absolute;
     width: 50px;
@@ -74,3 +71,42 @@
         right: 20px
     }
 }
+
+/// Categories -----------------------------
+.categories-bg {
+    padding: 40px;
+    background-color: #f3f4f6;
+
+    @media screen and (max-width: "640px") {
+        padding: 40px 12px;
+    }
+}
+
+
+/// Products -------------------------
+.products-bg {
+    padding: 40px;
+    background-color: #f9fafb;
+
+    @media screen and (max-width: "640px") {
+        padding: 40px 12px;
+    }
+}
+
+.contents-header {
+    text-align: center;
+    margin-bottom: 40px !important;
+    
+    .list-header {
+        line-height: 32px;
+        margin-bottom: 8px;
+        font-size: 2.4rem;
+        font-weight: 600;
+    }
+    .list-text {
+        color: var(--text-color);
+        font-family: "Open Sans", sans-serif;
+        line-height: 2.4rem;
+    }
+}
+

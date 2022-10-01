@@ -4,12 +4,14 @@ import images from "react-payment-inputs/images"
 const PaymentInputs = () => {
     const { wrapperProps, getCardImageProps, getCardNumberProps, getExpiryDateProps, getCVCProps } = usePaymentInputs()
     return (
-        <PaymentInputsWrapper {...wrapperProps}>
-            <svg {...getCardImageProps({ images })} />
-            <input {...getCardNumberProps()} autoComplete="cc-number" />
-            <input {...getExpiryDateProps()} />
-            <input {...getCVCProps()} />
-        </PaymentInputsWrapper>
+        <div style={{ width: "100%", marginBottom: "12px" }}>
+            <PaymentInputsWrapper {...wrapperProps}>
+                <svg {...getCardImageProps({ images })} />
+                <input {...getCardNumberProps()} autoComplete="cc-number" />
+                <input {...getExpiryDateProps()} />
+                <input {...getCVCProps()} />
+            </PaymentInputsWrapper>
+        </div>
     )
 }
 

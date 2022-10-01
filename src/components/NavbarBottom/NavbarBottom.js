@@ -4,11 +4,12 @@ import { Grid, Box } from "@mui/material"
 import Button from "~/components/Button"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import * as useActions from "~/redux/userSlice"
+import * as userActions from "~/redux/userSlice"
 import * as cartActions from "~/redux/cartSlice"
 
 import classNames from "classnames/bind"
 import styles from "./NavbarBottom.module.scss"
+import { auth } from "~/firebase"
 const cx = classNames.bind(styles)
 
 const NavbarBottom = ({ className }) => {
@@ -54,9 +55,9 @@ const NavbarBottom = ({ className }) => {
                         to="/"
                         className={cx("navbar-user")}
                         onClick={() => {
-                            localStorage.getItem("token") && localStorage.getItem("userName")
-                                ? navigate("/dashboard-user")
-                                : dispatch(useActions.setOpenLoginModal(true))
+                            const user = auth.currentUser
+                            console.log("user", user)
+                            user ? navigate("/user-dashboard") : dispatch(userActions.setOpenLoginModal(true))
                         }}>
                         <UserIcon className={cx("user-icon")} />
                     </Button>

@@ -20,6 +20,7 @@ import { useScrollY } from "~/hooks"
 import classNames from "classnames/bind"
 import styles from "./Navbar.module.scss"
 import CategoriesDropdown from "../CategoriesDropdown"
+import Loading from "../Loading"
 const cx = classNames.bind(styles)
 
 const pageMenu = [
@@ -137,12 +138,13 @@ const Navbar = () => {
                             <ClickAwayListener onClickAway={() => setShowListPages(false)}>
                                 <div className={cx("page-result")}>
                                     <PopperWrapper>
-                                        {pageMenu.map((menu, index) => (
+                                        {/* {pageMenu.map((menu, index) => (
                                             <ButtonPage key={index}>
                                                 <span>{menu.icon}</span>
                                                 <span>{menu.title}</span>
                                             </ButtonPage>
-                                        ))}
+                                        ))} */}
+                                        <Loading />
                                     </PopperWrapper>
                                 </div>
                             </ClickAwayListener>

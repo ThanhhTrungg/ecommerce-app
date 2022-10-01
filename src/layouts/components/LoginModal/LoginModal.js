@@ -8,7 +8,7 @@ import InputField from "~/components/InputField"
 import toast from "react-hot-toast"
 import storage from "~/Storage/Storage"
 import { EnvelopeIcon, FBIcon, GGIcon, LockIcon } from "~/components/Icons"
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
+import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
 import { query, getDocs, collection, where, addDoc } from "firebase/firestore"
 import { auth, db, googleProvider } from "~/firebase"
 
@@ -53,9 +53,10 @@ const LoginModal = () => {
                     email: user.email,
                 })
             }
+            dispatch(userActions.setOpenLoginModal(false))
             toast.success("Login Success!", {
                 duration: 3000,
-                position: "bottom-right",
+                position: "top-center",
             })
         } catch (err) {
             toast.error(err.message, {
@@ -77,10 +78,10 @@ const LoginModal = () => {
     const onSubmit = async (values) => {
         try {
             const res = await signInWithEmailAndPassword(auth, values.email, values.password)
-            console.log("res", res)
+            dispatch(userActions.setOpenLoginModal(false))
             toast.success("Login Success!", {
                 duration: 3000,
-                position: "bottom-right",
+                position: "top-center",
             })
         } catch (err) {
             console.error("err", err.message)

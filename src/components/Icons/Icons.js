@@ -786,3 +786,96 @@ export const UploadCloudIcon = ({ width = "3rem", height = "3rem", className }) 
         <polyline points="16 16 12 12 8 16"></polyline>
     </svg>
 )
+
+export const ShippingIcon = ({ width = "2.4rem", height = "2.4rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+    </svg>
+)
+
+export const WalletIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 512 512"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M47.5 104H432V51.52a16 16 0 00-19.14-15.69l-368 60.48a16 16 0 00-12 10.47A39.69 39.69 0 0147.5 104zm416 24h-416a16 16 0 00-16 16v288a16 16 0 0016 16h416a16 16 0 0016-16V144a16 16 0 00-16-16zM368 320a32 32 0 1132-32 32 32 0 01-32 32z"></path>
+        <path d="M31.33 259.5V116c0-12.33 5.72-18.48 15.42-20 35.2-5.53 108.58-8.5 108.58-8.5s-8.33 16-27.33 16V128c18.5 0 31.33 23.5 31.33 23.5L84.83 236z"></path>
+    </svg>
+)
+
+export const CardIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        version="1.1"
+        viewBox="0 0 16 16"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.5 2h-13c-0.825 0-1.5 0.675-1.5 1.5v9c0 0.825 0.675 1.5 1.5 1.5h13c0.825 0 1.5-0.675 1.5-1.5v-9c0-0.825-0.675-1.5-1.5-1.5zM1.5 3h13c0.271 0 0.5 0.229 0.5 0.5v1.5h-14v-1.5c0-0.271 0.229-0.5 0.5-0.5zM14.5 13h-13c-0.271 0-0.5-0.229-0.5-0.5v-4.5h14v4.5c0 0.271-0.229 0.5-0.5 0.5zM2 10h1v2h-1zM4 10h1v2h-1zM6 10h1v2h-1z"></path>
+    </svg>
+)
+
+export const UndoIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 512 512"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            strokeWidth="32"
+            d="M112 160l-64 64 64 64"></path>
+        <path
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            strokeWidth="32"
+            d="M64 224h294c58.76 0 106 49.33 106 108v20"></path>
+    </svg>
+)
+
+export const ArrowNextIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 512 512"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            strokeWidth="48"
+            d="M268 112l144 144-144 144m124-144H100"></path>
+    </svg>
+)

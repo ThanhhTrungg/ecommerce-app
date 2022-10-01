@@ -20,15 +20,15 @@ const CartItem = ({ listCart }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const handleDeleteItem = (id) => {
+    const handleDeleteItem = (title, id) => {
         try {
             dispatch(cartActions.removeItem(id))
-            toast.success("Product has been remove from cart", {
+            toast.success(`${title} has been removed from the cart`, {
                 duration: 3000,
                 position: "bottom-left",
             })
         } catch (error) {
-            console.error("Get all items cart API is error: ", error)
+            console.error("Something went wrong: ", error.message)
         }
     }
 
@@ -45,7 +45,6 @@ const CartItem = ({ listCart }) => {
                             onClick={async () => {
                                 navigate(`/product`)
                                 const response = await productApi.getProduct(itemCart.id)
-
                                 console.log("response", response)
                                 dispatch(productActions.getProductDetail(response))
                             }}>
@@ -71,7 +70,7 @@ const CartItem = ({ listCart }) => {
 
                             <Button
                                 leftIcon={<TrashIcon />}
-                                onClick={() => handleDeleteItem(itemCart.id)}
+                                onClick={() => handleDeleteItem(itemCart.title, itemCart.id)}
                                 className={cx("deleteAction")}
                             />
                         </div>

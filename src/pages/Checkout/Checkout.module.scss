@@ -1,9 +1,11 @@
 .checkout-bg {
+    display: flex;
+    justify-content: space-between;
     padding: 48px 40px;
     background: var(--background-color);
 
     @media (max-width: 768px) {
-        flex-direction: row-reverse;
+        flex-direction: column-reverse;
     }
     @media (max-width: 640px) {
         padding: 48px 12px;
@@ -11,12 +13,13 @@
 }
 
 .checkout-card {
-    padding-right: 40px;
+    flex: 1;
+    margin-right: 40px;
     @media (max-width: 1024px) {
-        padding-right: 24px;
+        margin-right: 24px;
     }
     @media (max-width: 768px) {
-        padding-right: 0;
+        margin-right: 0;
         margin-top: 20px;
     }
 }
@@ -33,6 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    column-gap: 24px;
 }
 
 .checkout-head {
@@ -43,7 +47,7 @@
     padding-bottom: 12px;
 }
 
-.form-inputPersonal,.form-inputShipping,.form-inputPayment  {
+.form-inputPersonal,.form-inputShipping  {
     font-family:  "Open Sans", sans-serif;
     background-color: var(--white-color);
     border: 1px solid var(--border-color);
@@ -65,7 +69,7 @@
 }
 
 .shipping-info {
-    
+    margin-top: 10px;
 }
 
 .label-info {
@@ -81,7 +85,12 @@
 
 }
 
-.cost-card {
+.cost-card,.payment-method {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+
     background: var(--white-color);
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -100,9 +109,10 @@
         font-weight: 500;
         line-height: 1.6rem;
     }
-    input[type=radio].shipping-radio {
+    .shipping-radio {
         width: 16px;
         height: 16px;
+        margin-bottom: 0;
 
         &:checked {
         background: var(--primary-color);
@@ -110,34 +120,82 @@
     }
 }
 
+.paymentInput {
+
+}
+
 
 .payment-info {
-
+    margin-top: 30px;
 }
 
 
 .continue-shopping {
+    text-align: center;
+    background-color: #eef2ff;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 12px 0;
+    margin-top: 40px;
+    flex: 1;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
 
+    &:hover {
+        border: 1px solid #eef2ff;
+    }
 }
 
 .confirm-payment {
+    text-align: center;
+    background-color: #eef2ff;
+    border-radius: 4px;
+    color: var(--white-color);
+    background: var(--primary-color);
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 12px 0;
+    transition: all 0.2s ease-in-out;
+    margin-top: 40px;
+    flex: 1;
 
+    &:hover {
+        background: var(--hover-primary-color);
+    }
+}
+
+.undo-icon {
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+}
+.arrowNext-icon {
+    position: relative;
+    top: 5px;
+    margin-left: 10px;
+}
+
+.shipAndPay {
+    color: #9ca3af;
+    line-height: 3.2rem;
 }
 
 .order-summary {
-    position: -webkit-sticky;
     position: sticky;
     top: calc(var( --header-height) + var(--nav-height));
     background: var(--white-color);
-    height: 524px;
     border: 1px solid var(--border-color);
-    padding: 20px;
+    padding: 32px;
     border-radius: 8px;
-    line-height: 2.4rem;
+    width: 40%;
+    height: 50%;
 
     @media (max-width: 768px) {
         position: unset;
         top: unset;
+        width: 100%;
     }
 
     h2 {
@@ -167,9 +225,68 @@
 
 
 .coupon-code {
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "Open Sans", sans-serif;
+    margin-top: 16px;
+    padding: 16px 0;
+    max-height: 80px;
 }
 
 .input-coupon {
+    border-radius: 6px;
+    font-size: 1.4rem;
+    line-height: 3rem;
+    padding: 8px 20px;
+    flex: 1;
+    border: 1px solid var(--border-color);
+    &:focus {
+        border: 1px solid var(--primary-color);
+    }
+}
 
+.btn-coupon {
+    border-radius: 6px;
+    font-size: 1.4rem;
+    line-height: 3rem;
+    padding: 8px 20px;
+    margin-left: 12px;
+    font-weight: 600;
+    width: 30%;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s linear;
+
+    &:hover {
+        color: var(--white-color);
+        background: var(--hover-primary-color);
+    }
+}
+
+.title-summary {
+    color: #6b7280;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.price-summary {
+    color: #1f2937;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 2rem;
+}
+
+.total-cost {
+   line-height: 2rem;
+   font-size: 1.4rem;
+   font-weight: 700;
+   text-transform: uppercase;
+}
+
+.total-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 2.8rem;
+    text-transform: uppercase;
 }

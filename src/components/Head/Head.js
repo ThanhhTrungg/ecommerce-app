@@ -7,6 +7,7 @@ import classNames from "classnames/bind"
 import styles from "./Head.module.scss"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { auth } from "~/firebase"
 
 const cx = classNames.bind(styles)
 
@@ -30,9 +31,9 @@ const Head = () => {
                 <div
                     className={cx("head-account")}
                     onClick={() => {
-                        localStorage.getItem("token") && localStorage.getItem("userName")
-                            ? navigate("/dashboard-user")
-                            : dispatch(userActions.setOpenLoginModal(true))
+                        const user = auth.currentUser
+                        console.log("user", user)
+                        user ? navigate("/user-dashboard") : dispatch(userActions.setOpenLoginModal(true))
                     }}>
                     My account
                 </div>

@@ -15,6 +15,7 @@ import { Grid } from "@mui/material"
 import Button from "~/components/Button"
 import { CartIcon, InfoIcon, UserIcon } from "~/components/Icons"
 import NavbarBottom from "~/components/NavbarBottom"
+import { auth } from "~/firebase"
 
 const cx = classNames.bind(styles)
 
@@ -97,9 +98,9 @@ const Header = () => {
                     <Button
                         className={cx("action-btn")}
                         onClick={() => {
-                            localStorage.getItem("token") && localStorage.getItem("userName")
-                                ? navigate("/dashboard-user")
-                                : dispatch(userActions.setOpenLoginModal(true))
+                            const user = auth.currentUser
+                            console.log("user", user)
+                            user ? navigate("/user-dashboard") : dispatch(userActions.setOpenLoginModal(true))
                         }}>
                         <UserIcon className={cx("act-user")} />
                     </Button>

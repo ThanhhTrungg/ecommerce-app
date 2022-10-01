@@ -1,5 +1,10 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Scrollbar } from "swiper"
+import "swiper/scss"
+import "swiper/scss/navigation"
+import "swiper/scss/scrollbar"
 
 import { BagIcon } from "../Icons"
 import priceFormat from "~/utils/priceFormat"
@@ -10,15 +15,21 @@ import * as categoryApi from "~/api/CategoryApi"
 import * as productApi from "~/api/ProductApi"
 import * as categoryActions from "~/redux/categorySlice"
 import * as productActions from "~/redux/productSlice"
+import Loading from "~/components/Loading"
 
+import { Toaster } from "react-hot-toast"
+import { Grid } from "@mui/material"
 import classNames from "classnames/bind"
 import styles from "./HomeContent.module.scss"
 const cx = classNames.bind(styles)
 
 const HomeContent = () => {
     const dispatch = useDispatch()
+    const { loading } = useSelector((state) => state.product)
     const { listCategories } = useSelector((state) => state.category)
+    console.log("listCategories", listCategories)
     const { listProducts } = useSelector((state) => state.product)
+    console.log("listProducts", listProducts)
     const { listCart } = useSelector((state) => state.cart)
 
     useEffect(() => {
@@ -26,7 +37,7 @@ const HomeContent = () => {
             const fetchApi = async () => {
                 dispatch(productActions.setLoading(true))
                 const response = await categoryApi.listCategory()
-                dispatch(categoryActions.getAllCategories(response))
+                dispatch(categoryActions.setAllCategories(response))
                 dispatch(productActions.setLoading(false))
             }
             fetchApi()
@@ -37,7 +48,7 @@ const HomeContent = () => {
             const fetchApi = async () => {
                 dispatch(productActions.setLoading(true))
                 const response = await productApi.listProduct()
-                dispatch(productActions.getAllProducts(response))
+                dispatch(productActions.setAllProducts(response))
                 dispatch(productActions.setLoading(false))
             }
             fetchApi()
@@ -58,16 +69,61 @@ const HomeContent = () => {
 
     return (
         <div className={cx("home-content")}>
-            <Categories
-                categories={listCategories}
-                title="Featured Categories"
-                text="Choose your necessary products from this feature categories."
-            />
-            <Products
-                products={listProducts}
-                title="Popular Products for Daily Shopping"
-                text="See all our popular products in this week. You can choose your daily needs products from this list and get some special offer with free shipping."
-            />
+            <div className={cx("categories-bg")}>
+                <div className={cx("contents-header")}>
+                    <h2 className={cx("list-header")}>Featured Categories</h2>
+                    <p className={cx("list-text")}> Choose your necessary products from this feature categories.</p>
+                </div>
+                <Grid container display="flex" justifyContent="space-between">
+                    {listCategories &&
+                        listCategories.length > 0 &&
+                        listCategories.map((category) =>
+                            loading ? <Loading /> : <Categories key={category.id} category={category} />
+                        )}
+                </Grid>
+            </div>
+
+            <div className={cx("products-bg")}>
+                <div className={cx("contents-header")}>
+                    <h2 className={cx("list-header")}>Popular Products for Daily Shopping</h2>
+                    <p className={cx("list-text")}>
+                        See all our popular products in this week. You can choose your daily needs products from this
+                        list and get some special offer with free shipping.
+                    </p>
+                </div>
+                <Swiper
+                    modules={[Navigation, Scrollbar]}
+                    navigation={{ prevEl: ".swiper-btn-prev", nextEl: ".swiper-btn-next" }}
+                    spaceBetween={12}
+                    loop={false}
+                    breakpoints={{
+                        1024: {
+                            slidesPerView: 5,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                        },
+                        640: {
+                            slidesPerView: 3,
+                        },
+                        480: {
+                            slidesPerView: 2,
+                        },
+                        320: {
+                            slidesPerView: 2,
+                        },
+                    }}>
+                    <Grid container display="flex" justifyContent="space-between">
+                        {listProducts &&
+                            listProducts.length > 0 &&
+                            listProducts.map((product, idx) => (
+                                <SwiperSlide key={idx}>
+                                    {loading ? <Loading /> : <Products key={product.id} product={product} />}
+                                </SwiperSlide>
+                            ))}
+                    </Grid>
+                </Swiper>
+            </div>
 
             <div
                 className={cx("cart-fixed")}
@@ -82,6 +138,8 @@ const HomeContent = () => {
                 </div>
                 <div className={cx("totalPrice")}>{priceFormat(getTotal().totalPrice)}</div>
             </div>
+
+            <Toaster reverseOrder={true} />
         </div>
     )
 }

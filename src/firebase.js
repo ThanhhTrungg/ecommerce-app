@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import { getAuth, GoogleAuthProvider, signOut } from "firebase/auth"
+import { getAuth, GoogleAuthProvider } from "firebase/auth"
 import { getFirestore, getStorage, ref, getDownloadURL } from "firebase/firestore"
 
 const firebaseConfig = {
@@ -18,10 +18,6 @@ const auth = getAuth(app)
 const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
 
-const logout = () => {
-    signOut(auth)
-}
-
 // Storage firebase
 // const storage = getStorage()
 // const httpsReference = ref(
@@ -30,4 +26,4 @@ const logout = () => {
 // )
 // console.log(httpsReference)
 
-export { auth, db, googleProvider, logout }
+export { auth, db, googleProvider }

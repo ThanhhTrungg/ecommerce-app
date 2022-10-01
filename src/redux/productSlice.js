@@ -9,7 +9,7 @@ export const productSlice = createSlice({
         loading: false,
     },
     reducers: {
-        getAllProducts: (state, action) => {
+        setAllProducts: (state, action) => {
             state.listProducts = action.payload
         }, // actions types : product/getAllProducts
         getProduct: (state, action) => {
@@ -43,6 +43,6 @@ export const productSlice = createSlice({
     },
 })
 
-export const { getAllProducts, getProductDetail, sortPrice, setLoading } = productSlice.actions
+export const { setAllProducts, getProductDetail, sortPrice, setLoading } = productSlice.actions
 
 export default productSlice.reducer

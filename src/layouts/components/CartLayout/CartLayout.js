@@ -5,11 +5,13 @@ import { TickBagIcon, XMarkIcon } from "~/components/Icons"
 import { useDispatch, useSelector } from "react-redux"
 import { BagGreenIcon } from "~/components/Icons"
 import * as cartActions from "~/redux/cartSlice"
+import * as userActions from "~/redux/userSlice"
 import CartItem from "~/components/CartItem"
 
 import classNames from "classnames/bind"
 import styles from "./CartLayout.module.scss"
 import { useNavigate } from "react-router-dom"
+import { auth } from "~/firebase"
 
 const cx = classNames.bind(styles)
 
@@ -56,9 +58,18 @@ const Cart = () => {
             <div
                 className={cx("cartFooter")}
                 onClick={() => {
-                    if (listCart.length > 0) {
+                    const user = auth.currentUser
+                    console.log("user", user)
+                    if (listCart.length === 0 && user) {
+                        dispatch(cartActions.handleOpenDrawer(false))
+                    } else if (listCart.length > 0 && user) {
                         dispatch(cartActions.handleOpenDrawer(false))
                         navigate("/checkout")
+                    } else if (listCart.length > 0 && !user) {
+                        dispatch(cartActions.handleOpenDrawer(false))
+                        dispatch(userActions.setOpenLoginModal(true))
+                        // logic after login redirect check out page
+                        //...
                     }
                     dispatch(cartActions.handleOpenDrawer(false))
                 }}>

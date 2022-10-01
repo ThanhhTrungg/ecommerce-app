@@ -16,11 +16,15 @@ import * as categoryActions from "~/redux/categorySlice"
 import * as productActions from "~/redux/productSlice"
 import * as categoryApi from "~/api/CategoryApi"
 import Products from "~/components/Products"
+import { Grid } from "@mui/material"
+import { Toaster } from "react-hot-toast"
+import Loading from "~/components/Loading"
 
 const cx = classNames.bind(styles)
 
 const Search = () => {
     const navigate = useNavigate()
+    const { loading } = useSelector((state) => state.product)
     const { listCategories, products } = useSelector((state) => state.category)
     const { sortPrice } = useSelector((state) => state.product)
     const [order, setOrder] = useState("asc")
@@ -30,10 +34,11 @@ const Search = () => {
 
     const handleCategoryContent = async (category) => {
         navigate(`/search?Category=${category.name}`)
+        dispatch(productActions.setLoading(true))
         const response = await categoryApi.getAllProductsByCategory(category.id)
-        const result = [...response, order]
-        setFilterProductList(result)
-        dispatch(categoryActions.getProductsByCategory(result))
+        console.log("response", response)
+        dispatch(categoryActions.getProductsByCategory(response))
+        dispatch(productActions.setLoading(false))
     }
 
     const handleOrderChangeAsc = () => {
@@ -70,42 +75,44 @@ const Search = () => {
                     <Button className={cx("btn-next")} leftIcon={<ArrowHorizonIcon />} />
                 </Swiper>
             </div>
-
-            <div className={cx("product-content")}>
-                {products && products.length > 0 ? (
-                    <div className={cx("sort-price")}>
-                        <p className={cx("sort-text")}>
-                            Total <strong>{products.length}</strong> items Found
-                        </p>
-                        <select
-                            className={cx("sort-select")}
-                            value={sortPrice}
-                            onChange={async (e) => {
-                                dispatch(productActions.sortPrice(products))
-                            }}>
-                            <option value="" selected disabled hidden>
-                                Sort By Price
-                            </option>
-                            <option value="lowest" onClick={handleOrderChangeAsc}>
-                                Low to High
-                            </option>
-                            <option value="highest" onClick={handleOrderChangeDesc}>
-                                High to Low
-                            </option>
-                        </select>
-                    </div>
-                ) : (
-                    ""
-                )}
-                {products && products.length > 0 ? (
-                    <Products products={products} className={cx("search-products")} />
-                ) : (
-                    <div className={cx("empty-content")}>
-                        <Image src="https://kachabazar-store.vercel.app/no-result.svg" alt="No products" />
-                        <p>Sorry, we can not find this product 😔</p>
-                    </div>
-                )}
-            </div>
+            {products && products.length > 0 ? (
+                <div className={cx("sort-price")}>
+                    <p className={cx("sort-text")}>
+                        Total <strong>{products.length}</strong> items Found
+                    </p>
+                    <select
+                        className={cx("sort-select")}
+                        value={sortPrice}
+                        onChange={async (e) => {
+                            dispatch(productActions.sortPrice(products))
+                        }}>
+                        <option value="" selected disabled hidden>
+                            Sort By Price
+                        </option>
+                        <option value="lowest" onClick={handleOrderChangeAsc}>
+                            Low to High
+                        </option>
+                        <option value="highest" onClick={handleOrderChangeDesc}>
+                            High to Low
+                        </option>
+                    </select>
+                </div>
+            ) : (
+                <div className={cx("empty-content")}>
+                    <Image src="https://kachabazar-store.vercel.app/no-result.svg" alt="No products" />
+                    <p>Sorry, we can not find this product 😔</p>
+                </div>
+            )}
+            <Grid container className={cx("product-content")}>
+                {products &&
+                    products.length > 0 &&
+                    products.map((product) => (
+                        <Grid key={product.id} desktop={2} laptop={3} tablet={3} smTablet={4} mobile={6} smMobile={6}>
+                            {loading ? <Loading /> : <Products product={product} className={cx("product")} />}
+                        </Grid>
+                    ))}
+            </Grid>
+            <Toaster />
         </div>
     )
 }
