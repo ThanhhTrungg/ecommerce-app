@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom"
 const cx = classNames.bind(styles)
 
 const CartItem = ({ listCart }) => {
-    console.log("listCart", listCart)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -43,10 +42,10 @@ const CartItem = ({ listCart }) => {
                         <h3
                             className={cx("itemHead")}
                             onClick={async () => {
+                                dispatch(cartActions.handleOpenDrawer(false))
                                 navigate(`/product`)
                                 const response = await productApi.getProduct(itemCart.id)
-                                console.log("response", response)
-                                dispatch(productActions.getProductDetail(response))
+                                dispatch(productActions.setProduct(response))
                             }}>
                             {itemCart.title}
                         </h3>

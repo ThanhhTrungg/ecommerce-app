@@ -16,7 +16,7 @@ const ScrollTop = () => {
 
 function App() {
     const dispatch = useDispatch()
-    dispatch(productActions.getProductDetail(null))
+    dispatch(productActions.setProductDetail(undefined))
 
     return (
         <Router>

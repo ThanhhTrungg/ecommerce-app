@@ -27,9 +27,7 @@ const HomeContent = () => {
     const dispatch = useDispatch()
     const { loading } = useSelector((state) => state.product)
     const { listCategories } = useSelector((state) => state.category)
-    console.log("listCategories", listCategories)
     const { listProducts } = useSelector((state) => state.product)
-    console.log("listProducts", listProducts)
     const { listCart } = useSelector((state) => state.cart)
 
     useEffect(() => {
@@ -78,7 +76,11 @@ const HomeContent = () => {
                     {listCategories &&
                         listCategories.length > 0 &&
                         listCategories.map((category) =>
-                            loading ? <Loading /> : <Categories key={category.id} category={category} />
+                            loading ? (
+                                <Loading key={category.id} />
+                            ) : (
+                                <Categories key={category.id} category={category} />
+                            )
                         )}
                 </Grid>
             </div>
@@ -118,7 +120,11 @@ const HomeContent = () => {
                             listProducts.length > 0 &&
                             listProducts.map((product, idx) => (
                                 <SwiperSlide key={idx}>
-                                    {loading ? <Loading /> : <Products key={product.id} product={product} />}
+                                    {loading ? (
+                                        <Loading key={product.id} />
+                                    ) : (
+                                        <Products key={product.id} product={product} />
+                                    )}
                                 </SwiperSlide>
                             ))}
                     </Grid>

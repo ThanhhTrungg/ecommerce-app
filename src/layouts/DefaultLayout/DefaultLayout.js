@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import Header from "~/layouts/components/Header"
 import Footer from "../components/Footer"
@@ -41,7 +41,7 @@ const DefaultLayout = ({ children }) => {
                 <MenuBottom />
             </DrawerWrapper> */}
             <ModalComp />
-            <ProductModal modalDetail={productDetail} activeModal={productDetail ? true : false} />
+            <ProductModal product={productDetail} activeModal={productDetail ? true : false} />
             <Footer />
         </div>
     )

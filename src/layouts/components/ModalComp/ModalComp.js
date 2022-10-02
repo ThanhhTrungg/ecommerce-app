@@ -8,7 +8,6 @@ import * as userActions from "~/redux/userSlice"
 
 import classNames from "classnames/bind"
 import styles from "./ModalComp.module.scss"
-import Loading from "~/components/Loading"
 const cx = classNames.bind(styles)
 
 const ModalComp = () => {

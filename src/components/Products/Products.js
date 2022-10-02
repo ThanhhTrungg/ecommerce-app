@@ -16,13 +16,21 @@ const cx = classNames.bind(styles)
 const Products = ({ product, className }) => {
     const dispatch = useDispatch()
 
+    const handleOpenModal = async () => {
+        dispatch(productActions.setProductDetail(product))
+    }
+
+    const handleAddToCart = () => {
+        dispatch(cartActions.addToCart(product))
+        toast.success(`1 ${product.title} added to cart`, {
+            duration: 3000,
+            position: "bottom-left",
+        })
+    }
+
     return (
         <div className={cx("list-products", { [className]: className })}>
-            <div
-                className={cx("list-imgProduct")}
-                onClick={() => {
-                    dispatch(productActions.getProductDetail(product))
-                }}>
+            <div className={cx("list-imgProduct")} onClick={handleOpenModal}>
                 <Image src={product.images} alt={product.title} className={cx("product-img")} />
             </div>
             <div className={cx("list-infoProduct")}>
@@ -31,15 +39,7 @@ const Products = ({ product, className }) => {
 
                 <div className={cx("product-actions")}>
                     <span className={cx("list-priceProduct")}>{"$" + product.price}</span>
-                    <button
-                        className={cx("action-btn")}
-                        onClick={() => {
-                            dispatch(cartActions.addToCart(product))
-                            toast.success(`1 ${product.title} added to cart`, {
-                                duration: 3000,
-                                position: "bottom-left",
-                            })
-                        }}>
+                    <button className={cx("action-btn")} onClick={handleAddToCart}>
                         <CartPlusIcon />
                     </button>
                 </div>

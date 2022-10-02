@@ -31,12 +31,12 @@ export const cartSlice = createSlice({
             }
         },
         incrementByAmount: (state, action) => {
-            const { modalDetail, quantity } = action.payload
-            const itemInCart = state.listCart.find((item) => item.id === modalDetail.id)
+            const { product, quantity } = action.payload
+            const itemInCart = state.listCart.find((item) => item.id === product.id)
             if (itemInCart) {
                 itemInCart.quantity += quantity
             } else {
-                state.listCart.push({ ...modalDetail, quantity: quantity })
+                state.listCart.push({ ...product, quantity: quantity })
             }
         },
         removeItem: (state, action) => {

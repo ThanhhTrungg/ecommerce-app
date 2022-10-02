@@ -793,8 +793,8 @@ export const ShippingIcon = ({ width = "2.4rem", height = "2.4rem", className })
         fill="none"
         strokeWidth="2"
         viewBox="0 0 24 24"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         height={height}
         width={width}
         className={className}
@@ -848,14 +848,14 @@ export const UndoIcon = ({ width = "2rem", height = "2rem", className }) => (
         xmlns="http://www.w3.org/2000/svg">
         <path
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="32"
             d="M112 160l-64 64 64 64"></path>
         <path
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="32"
             d="M64 224h294c58.76 0 106 49.33 106 108v20"></path>
     </svg>
@@ -873,9 +873,81 @@ export const ArrowNextIcon = ({ width = "2rem", height = "2rem", className }) =>
         xmlns="http://www.w3.org/2000/svg">
         <path
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="48"
             d="M268 112l144 144-144 144m124-144H100"></path>
+    </svg>
+)
+
+export const DollarIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="1" x2="12" y2="23"></line>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+    </svg>
+)
+
+export const RotationIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+    </svg>
+)
+
+export const XShieldIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+    </svg>
+)
+
+export const LocationIcon = ({ width = "2rem", height = "2rem", className }) => (
+    <svg
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        height={height}
+        width={width}
+        className={className}
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
     </svg>
 )

@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React, { useEffect, useRef, useState } from "react"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 
 import classNames from "classnames/bind"
 import styles from "./ProductModal.module.scss"
@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import Button from "~/components/Button"
 import toast from "react-hot-toast"
 import * as productActions from "~/redux/productSlice"
+import * as productApi from "~/api/ProductApi"
 import Image from "~/components/Image"
 import { Grid } from "@mui/material"
 import { MinusIcon, PlusIcon } from "~/components/Icons"
@@ -14,21 +15,22 @@ import * as cartActions from "~/redux/cartSlice"
 
 const cx = classNames.bind(styles)
 
-const ProductModal = ({ modalDetail, activeModal }) => {
+const ProductModal = ({ product, activeModal }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [quantity, setQuantity] = useState(1)
 
-    const handleCloseModal = (e) => {
-        dispatch(productActions.getProductDetail(null))
+    const handleCloseModal = () => {
+        dispatch(productActions.setProductDetail(undefined))
         setQuantity(1)
     }
     const handleCloseDetailProduct = (e) => {
         e.stopPropagation()
     }
 
-    const handleAddToCart = (modalDetail, quantity) => {
-        dispatch(cartActions.incrementByAmount({ modalDetail, quantity }))
-        toast.success(`${quantity} ${modalDetail.title} added to cart`, {
+    const handleAddToCart = (product, quantity) => {
+        dispatch(cartActions.incrementByAmount({ product, quantity }))
+        toast.success(`${quantity} ${product.title} added to cart`, {
             duration: 3000,
             position: "bottom-left",
         })
@@ -41,19 +43,19 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                 justifyContent="center"
                 className={cx("detail-container")}
                 onClick={handleCloseDetailProduct}>
-                {modalDetail && (
+                {product && (
                     <>
                         <Grid className={cx("detail-img")}>
-                            <Image className={cx("img-product")} src={modalDetail.images} alt={modalDetail.title} />
+                            <Image className={cx("img-product")} src={product.images} alt={product.title} />
                         </Grid>
 
                         <Grid className={cx("detail-content")}>
                             <div className={cx("detail-header")}>
-                                <h1 className={cx("content-head")}>{modalDetail.title}</h1>
-                                <span className={cx("content-sku")}>SKU: {modalDetail.code}</span>
+                                <h1 className={cx("content-head")}>{product.title}</h1>
+                                <span className={cx("content-sku")}>SKU: {product.code}</span>
                             </div>
-                            <p className={cx("content-des")}>{modalDetail.description}</p>
-                            <span className={cx("content-price")}>{"$" + modalDetail.price}</span>
+                            <p className={cx("content-des")}>{product.description}</p>
+                            <span className={cx("content-price")}>{"$" + product.price}</span>
 
                             <Grid display="flex" className={cx("qty-cate")}>
                                 <Grid
@@ -81,7 +83,7 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                                 <Grid laptop={7} tablet={7} smTablet={9} mobile={9} smMobile={8} marginLeft="16px">
                                     <Button
                                         className={cx("action-addCart")}
-                                        onClick={() => handleAddToCart(modalDetail, quantity)}>
+                                        onClick={() => handleAddToCart(product, quantity)}>
                                         Add to Cart
                                     </Button>
                                 </Grid>
@@ -93,12 +95,14 @@ const ProductModal = ({ modalDetail, activeModal }) => {
                                 className={cx("footer-modal")}>
                                 <Grid display="flex" flexDirection="column">
                                     <span className={cx("belong-category")}>
-                                        <span>Category: </span> {modalDetail.title}
+                                        <span>Category: </span> {product.title}
                                     </span>
-                                    <span className={cx("smBelong-category")}>{modalDetail.title}</span>
+                                    <span className={cx("smBelong-category")}>{product.title}</span>
                                 </Grid>
                                 <Grid className={cx("more-info")}>
-                                    <Link to={"/product"}>More info</Link>
+                                    <Link to={`#`} onClick={handleCloseModal}>
+                                        More info
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -1,102 +1,162 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
-import { ArrowHorizonIcon, MinusIcon, PlusIcon } from "~/components/Icons"
+import React, { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
+import {
+    ArrowHorizonIcon,
+    CircleFBIcon,
+    DollarIcon,
+    HomeIcon,
+    LinkedinIcon,
+    LocationIcon,
+    MinusIcon,
+    PinterestIcon,
+    PlusIcon,
+    RotationIcon,
+    ShippingIcon,
+    TweeterIcon,
+    WhatsappIcon,
+    XShieldIcon,
+} from "~/components/Icons"
 
 import classNames from "classnames/bind"
 import styles from "./ProductDetail.module.scss"
-import { Grid } from "@mui/material"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Image from "~/components/Image"
 import Button from "~/components/Button"
+import Products from "~/components/Products"
+import * as productApi from "~/api/ProductApi"
+import * as productActions from "~/redux/productSlice"
+import * as cartActions from "~/redux/cartSlice"
+import toast from "react-hot-toast"
+
 const cx = classNames.bind(styles)
 
 const ProductDetail = () => {
+    const { id } = useParams()
     const { productDetail } = useSelector((state) => state.product)
+    const [quantity, setQuantity] = useState(1)
+    const [product, setProduct] = useState({})
+    const dispatch = useDispatch()
 
-    useEffect(() => {}, [])
+    useEffect(() => {
+        const fetchApi = async () => {
+            const response = await productApi.getProduct(`${id}`)
+            setProduct(response)
+        }
+        fetchApi()
+    }, [])
+
+    const handleAddToCart = (product, quantity) => {
+        dispatch(cartActions.incrementByAmount({ product, quantity }))
+        toast.success(`${quantity} ${product.title} added to cart`, {
+            duration: 3000,
+            position: "bottom-left",
+        })
+    }
+
     return (
-        <div>
-            <div className={cx("bread-crumbs")}>
-                <Link className={cx("home")} to="/">
-                    Home
-                </Link>
-                <ArrowHorizonIcon />
-                <Link className={cx("category")} to="/">
-                    Home
-                </Link>
-                <ArrowHorizonIcon />
-                <p className={cx("product-name")}>{productDetail.title}</p>
-            </div>
-
-            <Grid container justifyContent="center" alignItems="center" className={cx("detail-container")}>
-                <Grid className={cx("detail-img")}>
-                    <Image className={cx("img-product")} src={productDetail.images} alt={productDetail.title} />
-                </Grid>
-                <Grid className={cx("detail-content")}>
-                    <div className={cx("detail-header")}>
-                        <h1 className={cx("content-head")}>{productDetail.title}</h1>
-                        <span className={cx("content-sku")}>SKU: {productDetail.code}</span>
+        <>
+            {product && (
+                <>
+                    <div className={classNames(styles.breadCrumbs)}>
+                        <Link className={classNames(styles.home)} to="/">
+                            Home
+                        </Link>
+                        <ArrowHorizonIcon />
+                        <Link className={classNames(styles.category)} to="/">
+                            Home
+                        </Link>
+                        <ArrowHorizonIcon />
+                        <p className={classNames(styles.productName)}>{product.title}</p>
                     </div>
-                    <p className={cx("content-des")}>{productDetail.description}</p>
-                    <span className={cx("content-price")}>{"$" + productDetail.price}</span>
 
-                    <Grid display="flex" className={cx("qty-cate")}>
-                        <Grid
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            laptop={5}
-                            tablet={5}
-                            smTablet={3}
-                            mobile={3}
-                            smMobile={4}
-                            className={cx("quantity-actions")}>
-                            <Button
-                                className={cx("btn-minus")}
-                                // onClick={() =>
-                                //     dispatch(
-                                //         cartActions.setCartItemQuantity(
-                                //             cartItemQuantity - 1 === 0 ? 1 : cartItemQuantity - 1
-                                //         )
-                                //     )
-                                // }
-                            >
-                                <MinusIcon />
-                            </Button>
+                    <div className={classNames(styles.detailContainer)}>
+                        <div className={classNames(styles.detailImg)}>
+                            <Image className={classNames(styles.imgProduct)} src={product.images} alt={product.title} />
+                        </div>
+                        <div className={classNames(styles.detailContent)}>
+                            <div>
+                                <div className={classNames(styles.detailHeader)}>
+                                    <h1 className={classNames(styles.contentHead)}>{product.title}</h1>
+                                    <span className={classNames(styles.contentSku)}>SKU: {product.code}</span>
+                                </div>
+                                <p className={classNames(styles.contentDes)}>{product.description}</p>
+                                <span className={classNames(styles.contentPrice)}>{"$" + product.price}</span>
 
-                            <span className={cx("span-quantity")}>{/* {cartItemQuantity} */}0</span>
+                                <div display="flex" className={classNames(styles.qtyCate)}>
+                                    <div className={classNames(styles.quantityActions)}>
+                                        <Button
+                                            className={classNames(styles.btnMinus)}
+                                            onClick={() => setQuantity(quantity - 1 >= 1 ? 1 : quantity - 1)}>
+                                            <MinusIcon />
+                                        </Button>
 
-                            <Button
-                                className={cx("btn-plus")}
-                                // onClick={() => dispatch(cartActions.setCartItemQuantity(cartItemQuantity + 1))}
-                            >
-                                <PlusIcon />
-                            </Button>
-                        </Grid>
-                        <Grid laptop={7} tablet={7} smTablet={9} mobile={9} smMobile={8} marginLeft="16px">
-                            <Button
-                                className={cx("action-addCart")}
-                                // onClick={handleAddToCart}
-                            >
-                                Add to Cart
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        className={cx("footer-modal")}>
-                        <Grid display="flex" flexDirection="column">
-                            <span className={cx("belong-category")}>
-                                <span>Category: </span> {productDetail.title}
-                            </span>
-                            <span className={cx("smBelong-category")}>{productDetail.title}</span>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </div>
+                                        <span className={classNames(styles.spanQuantity)}>{quantity}</span>
+
+                                        <Button
+                                            className={classNames(styles.btnPlus)}
+                                            onClick={() => setQuantity(quantity + 1)}>
+                                            <PlusIcon />
+                                        </Button>
+                                    </div>
+                                    <div>
+                                        <Button
+                                            className={classNames(styles.actionAddCart)}
+                                            onClick={() => handleAddToCart(product, quantity)}>
+                                            Add to Cart
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className={classNames(styles.footerModal)}>
+                                    <div>
+                                        <span className={classNames(styles.belongCategory)}>
+                                            <span>Category: </span> {product.title}
+                                        </span>
+                                        <span className={classNames(styles.smBelongCategory)}>{product.title}</span>
+                                    </div>
+                                </div>
+                                <div className={classNames(styles.socialNetwork)}>
+                                    <h3>Share your social network</h3>
+                                    <p>For get lots of traffic from social network share this product</p>
+                                    <div>
+                                        <CircleFBIcon />
+                                        <TweeterIcon />
+                                        <PinterestIcon />
+                                        <LinkedinIcon />
+                                        <WhatsappIcon />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <ShippingIcon />
+                                    Free shipping apply to all orders over shipping $100
+                                </div>
+                                <div>
+                                    <HomeIcon />
+                                    Home Delivery within 1 Hour
+                                </div>
+                                <div>
+                                    <DollarIcon />
+                                    Cash on Delivery Available
+                                </div>
+                                <div>
+                                    <RotationIcon />7 Days returns money back guarantee
+                                </div>
+                                <div>
+                                    <XShieldIcon />
+                                    Warranty not available this item
+                                </div>
+
+                                <div>
+                                    <LocationIcon />
+                                    Delivery from our pick point Cecilia Chapman, 561-4535 Nulla LA, United States 96522
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
     )
 }
 

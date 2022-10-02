@@ -59,7 +59,6 @@ const Cart = () => {
                 className={cx("cartFooter")}
                 onClick={() => {
                     const user = auth.currentUser
-                    console.log("user", user)
                     if (listCart.length === 0 && user) {
                         dispatch(cartActions.handleOpenDrawer(false))
                     } else if (listCart.length > 0 && user) {

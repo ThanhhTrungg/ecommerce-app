@@ -9,7 +9,6 @@ import UserDashboard from "~/pages/UserDashboard"
 import Search from "~/pages/Search"
 import ProductDetail from "~/pages/ProductDetail"
 import Checkout from "~/pages/Checkout"
-import withAuth from "~/HOC/withAuth"
 // Public routes
 export const publicRoutes = [
     { path: config.routes.home, component: Home },

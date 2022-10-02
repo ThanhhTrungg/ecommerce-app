@@ -59,7 +59,13 @@ const NavbarBottom = ({ className }) => {
                             console.log("user", user)
                             user ? navigate("/user-dashboard") : dispatch(userActions.setOpenLoginModal(true))
                         }}>
-                        <UserIcon className={cx("user-icon")} />
+                        {auth.currentUser ? (
+                            <span className={cx("name-loggedIn")}>
+                                {auth.currentUser.email.charAt(0).toLocaleUpperCase()}
+                            </span>
+                        ) : (
+                            <UserIcon className={cx("user-icon")} />
+                        )}
                     </Button>
                 </Grid>
             </Grid>

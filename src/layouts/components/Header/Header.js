@@ -99,10 +99,15 @@ const Header = () => {
                         className={cx("action-btn")}
                         onClick={() => {
                             const user = auth.currentUser
-                            console.log("user", user)
                             user ? navigate("/user-dashboard") : dispatch(userActions.setOpenLoginModal(true))
                         }}>
-                        <UserIcon className={cx("act-user")} />
+                        {auth.currentUser ? (
+                            <span className={cx("name-loggedIn")}>
+                                {auth.currentUser.email.charAt(0).toLocaleUpperCase()}
+                            </span>
+                        ) : (
+                            <UserIcon className={cx("act-user")} />
+                        )}
                     </Button>
                 </Grid>
             </Grid>
