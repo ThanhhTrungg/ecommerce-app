@@ -1,27 +1,30 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
 import classNames from "classnames/bind"
 import styles from "./ProductModal.module.scss"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Button from "~/components/Button"
 import toast from "react-hot-toast"
 import * as productActions from "~/redux/productSlice"
 import * as productApi from "~/api/ProductApi"
+import * as categoryApi from "~/api/CategoryApi"
+import * as categoryActions from "~/redux/categorySlice"
+import * as cartActions from "~/redux/cartSlice"
+
 import Image from "~/components/Image"
 import { Grid } from "@mui/material"
 import { MinusIcon, PlusIcon } from "~/components/Icons"
-import * as cartActions from "~/redux/cartSlice"
 
 const cx = classNames.bind(styles)
 
-const ProductModal = ({ product, activeModal }) => {
+const ProductModal = ({ product, isOpened }) => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const { productDetail } = useSelector((state) => state.product)
     const [quantity, setQuantity] = useState(1)
 
     const handleCloseModal = () => {
-        dispatch(productActions.setProductDetail(undefined))
+        dispatch(productActions.setOpenProductModal(false))
         setQuantity(1)
     }
     const handleCloseDetailProduct = (e) => {
@@ -36,26 +39,38 @@ const ProductModal = ({ product, activeModal }) => {
         })
     }
 
+    const handleProductDetail = async () => {
+        dispatch(productActions.setLoading(true))
+
+        dispatch(productActions.setOpenProductModal(false))
+        const getProduct = await productApi.getProduct(productDetail.id)
+        dispatch(productActions.setProduct(getProduct))
+
+        const getAllProductFromCategory = await categoryApi.getAllProductsByCategory(productDetail.category.id)
+        dispatch(categoryActions.getProductsByCategory(getAllProductFromCategory))
+        dispatch(productActions.setLoading(false))
+    }
+
     return (
-        <div className={cx("productDetail-modal", { activeModal })} onClick={handleCloseModal}>
+        <div className={cx("productDetail-modal", { isOpened })} onClick={handleCloseModal}>
             <Grid
                 container
                 justifyContent="center"
                 className={cx("detail-container")}
                 onClick={handleCloseDetailProduct}>
-                {product && (
+                {productDetail && (
                     <>
                         <Grid className={cx("detail-img")}>
-                            <Image className={cx("img-product")} src={product.images} alt={product.title} />
+                            <Image className={cx("img-product")} src={productDetail.images} alt={productDetail.title} />
                         </Grid>
 
                         <Grid className={cx("detail-content")}>
                             <div className={cx("detail-header")}>
-                                <h1 className={cx("content-head")}>{product.title}</h1>
-                                <span className={cx("content-sku")}>SKU: {product.code}</span>
+                                <h1 className={cx("content-head")}>{productDetail.title}</h1>
+                                <span className={cx("content-sku")}>SKU: {productDetail.code}</span>
                             </div>
-                            <p className={cx("content-des")}>{product.description}</p>
-                            <span className={cx("content-price")}>{"$" + product.price}</span>
+                            <p className={cx("content-des")}>{productDetail.description}</p>
+                            <span className={cx("content-price")}>{"$" + productDetail.price}</span>
 
                             <Grid display="flex" className={cx("qty-cate")}>
                                 <Grid
@@ -95,12 +110,12 @@ const ProductModal = ({ product, activeModal }) => {
                                 className={cx("footer-modal")}>
                                 <Grid display="flex" flexDirection="column">
                                     <span className={cx("belong-category")}>
-                                        <span>Category: </span> {product.title}
+                                        <span>Category: </span> {productDetail.title}
                                     </span>
-                                    <span className={cx("smBelong-category")}>{product.title}</span>
+                                    <span className={cx("smBelong-category")}>{productDetail.title}</span>
                                 </Grid>
                                 <Grid className={cx("more-info")}>
-                                    <Link to={`#`} onClick={handleCloseModal}>
+                                    <Link to={`/product?value=${productDetail.title}`} onClick={handleProductDetail}>
                                         More info
                                     </Link>
                                 </Grid>

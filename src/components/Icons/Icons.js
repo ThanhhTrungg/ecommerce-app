@@ -928,14 +928,13 @@ export const XShieldIcon = ({ width = "2rem", height = "2rem", className }) => (
         width={width}
         className={className}
         xmlns="http://www.w3.org/2000/svg">
-        <polyline points="17 1 21 5 17 9"></polyline>
-        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-        <polyline points="7 23 3 19 7 15"></polyline>
-        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        <path d="M19.69 14a6.9 6.9 0 0 0 .31-2V5l-8-3-3.16 1.18"></path>
+        <path d="M4.73 4.73L4 5v7c0 6 8 10 8 10a20.29 20.29 0 0 0 5.62-4.38"></path>
+        <line x1="1" y1="1" x2="23" y2="23"></line>
     </svg>
 )
 
-export const LocationIcon = ({ width = "2rem", height = "2rem", className }) => (
+export const LocationIcon = ({ width = "3.6rem", height = "3.6rem", className }) => (
     <svg
         stroke="currentColor"
         fill="none"

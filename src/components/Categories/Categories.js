@@ -33,23 +33,23 @@ const Categories = ({ category }) => {
                 dispatch(categoryActions.getProductsByCategory(response))
                 dispatch(productActions.setLoading(false))
             }}>
-            <Grid smMobile={3} mobile={3} smTablet={3} tablet={3} laptop={3} className={cx("list-imgCategory")}>
+            <Grid smMobile={4} mobile={4} smTablet={4} tablet={4} laptop={4} className={cx("list-imgCategory")}>
                 <Image className={cx("img-category")} src={category.image} alt={category.title} />
             </Grid>
 
-            <Grid smMobile={9} mobile={9} smTablet={9} tablet={9} laptop={9} className={cx("list-categoryName")}>
+            <Grid smMobile={8} mobile={8} smTablet={8} tablet={8} laptop={8} className={cx("list-categoryName")}>
                 <h3 className={cx("main-category")}>{category.name}</h3>
-                {/* <div className={cx("sub-categories")}>
-                                <Link to="/" className={cx("sub-categoryItem")}>
-                                    Cakes
-                                </Link>
-                                <Link to="/" className={cx("sub-categoryItem")}>
-                                    Biscuits
-                                </Link>
-                                <Link to="/" className={cx("sub-categoryItem")}>
-                                    Biscuits
-                                </Link>
-                            </div> */}
+                <div className={cx("sub-categories")}>
+                    {/* <Link to="/" className={cx("sub-categoryItem")}>
+                        Cakes
+                    </Link>
+                    <Link to="/" className={cx("sub-categoryItem")}>
+                        Biscuits
+                    </Link>
+                    <Link to="/" className={cx("sub-categoryItem")}>
+                        Biscuits
+                    </Link> */}
+                </div>
             </Grid>
         </Grid>
     )

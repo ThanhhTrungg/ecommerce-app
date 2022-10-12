@@ -13,7 +13,7 @@
     transition: all 0.5s ease-in-out;
 }
 
-.productDetail-modal.activeModal {
+.productDetail-modal.isOpened {
     opacity: 1;
     visibility: visible;
 }
@@ -27,15 +27,18 @@
     overflow: hidden;
     max-width: 80vw;
     opacity: 0;
+    top: 0;
     transform: translateY(-120%);
     transition: all 0.5s ease-in-out;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
         flex-direction: column;
+        height: 90vh;
+        overflow-y: scroll;
     }
 }
 
-.productDetail-modal.activeModal  > .detail-container {
+.isOpened  > .detail-container {
     opacity: 1;
     top: 50%;
     transform: translateY(-50%);
@@ -64,12 +67,12 @@
     font-weight: 600;
     margin-bottom: 8px;
 
-    @media screen and (max-width: 1024px) {
+    @media  (max-width: 1024px) {
         font-size: 2rem;
         line-height: 2.8rem;
     }
 
-    @media screen and (max-width: 768px) {
+    @media  (max-width: 768px) {
         font-size: 1.8rem;
         line-height: 2.8rem;
 
@@ -90,7 +93,6 @@
     border-radius: 10px;
 }
 
-
 .content-des {
     font-family: "Open Sans", sans-serif !important;
     font-size: 1.4rem;
@@ -102,7 +104,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
 
-    @media screen and (max-width: 768px) {
+    @media  (max-width: 768px) {
         line-height: 1.5rem;
     }
 }

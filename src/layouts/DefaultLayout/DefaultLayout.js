@@ -8,18 +8,18 @@ import ProductModal from "../components/ProductModal"
 import ModalComp from "~/layouts/components/ModalComp/ModalComp"
 import CartItem from "../../components/CartItem"
 
-import classNames from "classnames/bind"
-import styles from "./DefaultLayout.module.scss"
 import DrawerWrapper from "../components/DrawerWrapper"
 import MenuBottom from "~/components/MenuBottom"
 import CartLayout from "~/layouts/components/CartLayout"
 
+import classNames from "classnames/bind"
+import styles from "./DefaultLayout.module.scss"
 const cx = classNames.bind(styles)
 
 const DefaultLayout = ({ children }) => {
     const dispatch = useDispatch()
     const { openCartDrawer } = useSelector((state) => state.cart)
-    const { productDetail } = useSelector((state) => state.product)
+    const { productDetail, openProductModal } = useSelector((state) => state.product)
 
     return (
         <div className={cx("wrapper")}>
@@ -41,7 +41,7 @@ const DefaultLayout = ({ children }) => {
                 <MenuBottom />
             </DrawerWrapper> */}
             <ModalComp />
-            <ProductModal product={productDetail} activeModal={productDetail ? true : false} />
+            <ProductModal product={productDetail} isOpened={openProductModal} />
             <Footer />
         </div>
     )

@@ -6,26 +6,23 @@ export const productSlice = createSlice({
         listProducts: [],
         productDetail: {},
         product: {},
-        openProductModal: {},
+        openProductModal: false,
         sortPrice: "",
         loading: false,
     },
     reducers: {
         setAllProducts: (state, action) => {
             state.listProducts = action.payload
-        }, // actions types : product/getAllProducts
-        getProduct: (state, action) => {
-            state.product = action.payload
-        }, // actions types : product/getProduct
+        }, // actions types : product/setAllProducts
         setProductDetail: (state, action) => {
             state.productDetail = action.payload
         }, // actions types : product/setProductModal
         setOpenProductModal: (state, action) => {
             state.openProductModal = action.payload
-        }, // actions types : product/setProductModal
+        }, // actions types : product/setOpenProductModal
         setProduct: (state, action) => {
             state.product = action.payload
-        }, // actions types : product/setProductDetail
+        }, // actions types : product/setProduct
         sortPrice: (state, action) => {
             const { product } = action.payload
             if (state.sortPrice !== "") {
@@ -44,10 +41,10 @@ export const productSlice = createSlice({
             } else {
                 product !== undefined && product.slice().sort((a, b) => (a.id > b.id ? 1 : -1))
             }
-        }, // actions types : product/setProductDetail
+        }, // actions types : product/sortPrice
         setLoading: (state, action) => {
             state.loading = action.payload
-        }, // actions types : product/setProductDetail
+        }, // actions types : product/setLoading
     },
 })
 

@@ -16,7 +16,8 @@ const cx = classNames.bind(styles)
 const Products = ({ product, className }) => {
     const dispatch = useDispatch()
 
-    const handleOpenModal = async () => {
+    const handleOpenModal = () => {
+        dispatch(productActions.setOpenProductModal(true))
         dispatch(productActions.setProductDetail(product))
     }
 

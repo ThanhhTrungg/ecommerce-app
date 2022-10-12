@@ -72,17 +72,15 @@ const HomeContent = () => {
                     <h2 className={cx("list-header")}>Featured Categories</h2>
                     <p className={cx("list-text")}> Choose your necessary products from this feature categories.</p>
                 </div>
-                <Grid container display="flex" justifyContent="space-between">
-                    {listCategories &&
-                        listCategories.length > 0 &&
-                        listCategories.map((category) =>
-                            loading ? (
-                                <Loading key={category.id} />
-                            ) : (
-                                <Categories key={category.id} category={category} />
-                            )
-                        )}
-                </Grid>
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <Grid container display="flex" justifyContent="flex-start">
+                        {listCategories &&
+                            listCategories.length > 0 &&
+                            listCategories.map((category) => <Categories key={category.id} category={category} />)}
+                    </Grid>
+                )}
             </div>
 
             <div className={cx("products-bg")}>

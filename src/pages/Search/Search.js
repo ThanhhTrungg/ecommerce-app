@@ -36,7 +36,6 @@ const Search = () => {
         navigate(`/search?Category=${category.name}`)
         dispatch(productActions.setLoading(true))
         const response = await categoryApi.getAllProductsByCategory(category.id)
-        console.log("response", response)
         dispatch(categoryActions.getProductsByCategory(response))
         dispatch(productActions.setLoading(false))
     }

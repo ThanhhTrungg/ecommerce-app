@@ -1,9 +1,7 @@
 import { Fragment, useEffect } from "react"
-import { useDispatch } from "react-redux"
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom"
 import DefaultLayout from "~/layouts/DefaultLayout"
 import { publicRoutes } from "~/routes/routes"
-import * as productActions from "~/redux/productSlice"
 
 const ScrollTop = () => {
     const { pathname } = useLocation()
@@ -15,9 +13,6 @@ const ScrollTop = () => {
 }
 
 function App() {
-    const dispatch = useDispatch()
-    dispatch(productActions.setProductDetail(undefined))
-
     return (
         <Router>
             <ScrollTop />

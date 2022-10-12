@@ -8,7 +8,7 @@ import InputField from "~/components/InputField"
 import toast from "react-hot-toast"
 import storage from "~/Storage/Storage"
 import { EnvelopeIcon, FBIcon, GGIcon, LockIcon } from "~/components/Icons"
-import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
 import { query, getDocs, collection, where, addDoc } from "firebase/firestore"
 import { auth, db, googleProvider } from "~/firebase"
 

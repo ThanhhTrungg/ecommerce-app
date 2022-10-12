@@ -3,15 +3,14 @@
     align-items: center;
     justify-content: center;
     height: 90px;
+    margin: 0 auto;
 }
 
 .loading-container.modalBg {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--white-color);
 }
 
 .loading-item {
